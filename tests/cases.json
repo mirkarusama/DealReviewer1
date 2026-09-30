@@ -551,6 +551,52 @@
         ]
       },
       "// why": "A quote that isn't in the document is flagged for a reviewer."
+    },
+    {
+      "name": "Set3.candidates-only",
+      "set": "Set3",
+      "request": {
+        "promised": [],
+        "notPromised": []
+      },
+      "// why": "The agent adds nothing: the candidates alone decide step 7."
+    },
+    {
+      "name": "Set3.take-out-analytics",
+      "set": "Set3",
+      "request": {
+        "promised": [],
+        "notPromised": [
+          {
+            "workstream": "Analytics",
+            "reason": "The labels are change management adoption analytics, not SAP reporting."
+          }
+        ]
+      },
+      "// why": "A candidate taken out is flagged with the agent's reason."
+    },
+    {
+      "name": "Set3-step6-pass.candidates-only",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [],
+        "notPromised": []
+      },
+      "// why": "The agent adds nothing: the candidates alone decide step 7."
+    },
+    {
+      "name": "Set3-step6-pass.take-out-analytics",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [],
+        "notPromised": [
+          {
+            "workstream": "Analytics",
+            "reason": "The labels are change management adoption analytics, not SAP reporting."
+          }
+        ]
+      },
+      "// why": "A candidate taken out is flagged with the agent's reason."
     }
   ],
   "agentOutputs": [
@@ -578,7 +624,10 @@
       "Set3-step6-pass.today-plus-ocm-testing",
       "Set3-step6-pass.today-plus-controls",
       "Set3-step6-pass.team-table",
-      "Set3-step6-pass.made-up-quote"
+      "Set3-step6-pass.made-up-quote",
+      "Set3-step6-pass.candidates-only",
+      "Set3-step6-pass.take-out-analytics",
+      "Set3-step6-pass.every-candidate"
     ]
   ]
 }

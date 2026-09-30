@@ -40,7 +40,7 @@ Main.xaml  (robot that can see the deal folder)
 
 Q3 is the only answer that depends on the agent's reading, so code narrows what the agent has to decide:
 
-- **Candidates.** Run 1 lists every SAP workstream the response uses as a label (a heading, the first cell of a table row, or a SmartArt box) in `agentTask.candidates`, with where. The agent keeps or leaves out each one. Workstreams only named in running text are in `agentTask.alsoMentioned`, by name.
+- **Candidates count as promised.** Run 1 lists every SAP workstream the response uses as a label (a heading, the first cell of a table row, or a SmartArt box) in `agentTask.candidates`, with where. `checkWorkstreams` counts all of them as promised. The agent can take one out only by listing it in `notPromised` with a reason, which becomes a flag for a reviewer. The agent adds workstreams that aren't candidates in `promised`. Workstreams only named in running text are in `agentTask.alsoMentioned`, by name.
 - **Left out by code.** `checkWorkstreams` leaves out names on `notSapWorkstreams` (PMO, OCM, testing…) and names quoted from a section on `workstreamIgnoreSections` (risks, assumptions, other clients' references…). They're listed in the trail and in `values.leftOutWorkstreams`, and can't change the answer.
 - **Quotes are checked.** A quote that isn't in the document gets a flag for a reviewer. The document's own location is used for the section check.
 - **The Note names the SAP workstreams covered, in `sapWorkstreams` order,** never how many names the agent sent or in what order. Two runs that find the same workstreams write the same Note.
@@ -181,7 +181,7 @@ Every call passes `in_Action`, `in_SnapshotId` and `in_Request` (valid JSON, `"{
   - The system prompt lets the agent use only `addJuniorLevel`, `addSeniorLevel`, `addUsiGeography`, `addNonUsiGeography` and `leaveOutRows`.
   - `matchesFirstRun: false` means the tool is running different code from Run 1. Its results must not be used.
 - **`searchResponse`** `{"words":["team","work stream"]}`, `{"location":"Slide 70"}`, or `{}` for an outline: finds text in the response document, with its slide or section.
-- **`checkWorkstreams`** `{"promised":[{"name":"…","location":"…","quote":"…"}]}` or `{"couldNotRead":true,"source":"…"}`: matches the promised workstreams to the pricing model and returns Q3's finished answer.
+- **`checkWorkstreams`** `{"promised":[{"name":"…","location":"…","quote":"…"}],"notPromised":[{"workstream":"…","reason":"…"}]}` or `{"couldNotRead":true,"source":"…"}`: counts Run 1's candidates (minus `notPromised`) plus `promised`, matches them to the pricing model and returns Q3's finished answer.
 - **`checkReading`** `{}` or `{"rows":[245,246]}`: which sheet, columns and rows every number came from, plus anything that looks off (totals rows, Excel errors, hidden sheets).
 
 The tool never throws. Every problem comes back as `{"ok": false, "action": …, "error": …, "hint": …}`. DealTool.xaml checks the snapshot ID's format before it downloads anything.
@@ -265,7 +265,8 @@ To add a deal, put its files in a new folder and add it to `sets`. To keep a rea
 ## Known issues
 
 - `CODE_MAP.md` and a comment in `DealReader.cs` still give the settings path as `Data\DealSettings.json`. The workflow actually uses `DealReview_code\DealSettings.json`.
-- Some `sapWorkstreams` synonyms match things that aren't SAP workstreams, which adds noise candidates: `PP` matches "PP&E", `Quality Management` matches project quality management, and `Analytics` matches "Change Strategy & Analytics". The prompt tells the agent to leave those out.
+- Candidates come from `sapWorkstreams` synonyms, so a synonym with a second meaning makes a wrong candidate, and a wrong candidate that isn't staffed makes Q3 No. Keep synonyms specific. "Quality Management" was removed for this reason: responses use it for project quality (it's on `notSapWorkstreams` now; SAP QM is still matched by "QM"). An ampersand between letters joins one term, so "PP" no longer matches "PP&E".
+- On Set3, Analytics is a candidate because of the change-management labels "Change Strategy & Analytics". The response's real reporting scope (Power BI, CDS views in 5.2 Technology Design) is in running text. The answer is right either way, since Reporting is staffed.
 - A PowerPoint response has no section names ("Slide 12"), so `workstreamIgnoreSections` can't apply there.
 - `Main.xaml` still has a commented-out step from an older version: `FileReaderTool` with a hard-coded path and an undeclared `summaryJson` variable. The `FileReaderTool` imports are also still there.
 - When the files aren't right, the run only logs a warning and writes no output file.

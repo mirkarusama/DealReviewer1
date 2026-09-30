@@ -78,7 +78,8 @@
   "sapWorkstreams": {
     "Procurement": ["PTP", "P2P", "STP", "S2P", "Procure to Pay", "Source to Pay", "Materials Management", "MM","Ariba", "Sourcing", "Direct Procurement", "Indirect Procurement"],
     "Finance": ["FI", "RTR", "R2R", "FICO", "Record to Report", "GL", "AP", "AR", "Financial Accounting", "General Ledger", "Fixed Assets", "FSCM"],
-    "Manufacturing": ["MFG", "PP", "Make to Order", "MTO", "Production Planning", "Plan to Make", "PTM", "IBP", "QM", "Quality Management"],
+    // "Quality Management" is left out on purpose: responses use it for project quality (PMO). SAP QM is matched by "QM".
+    "Manufacturing": ["MFG", "PP", "Make to Order", "MTO", "Production Planning", "Plan to Make", "PTM", "IBP", "QM"],
     "Sales": ["SD", "OTC", "O2C", "Order to Cash", "Sales and Distribution", "Pricing", "Billing", "Invoicing"],
     "Supply chain": ["EWM", "WM", "Logistics", "TM", "Warehouse Management", "IM"],
     "Analytics": ["SAC", "Reporting", "BW", "Embedded Analytics", "BDC", "Data Fabrics", "Datasphere"],
@@ -94,7 +95,7 @@
 
   // Q3 step 7: names that aren't SAP workstreams. checkWorkstreams leaves them out, so whether the agent lists them
   // can't change Q3. Only used for names that match no sapWorkstreams entry ("Data Migration Testing" still counts as Data).
-  "notSapWorkstreams": ["Project Management", "Program Management", "PMO", "Governance", "Change Management", "Organizational Change Management", "Organisational Change Management", "OCM", "Training", "Testing", "Test", "Quality Assurance", "QA"],
+  "notSapWorkstreams": ["Project Management", "Program Management", "PMO", "Governance", "Quality Management", "Change Management", "Organizational Change Management", "Organisational Change Management", "OCM", "Training", "Testing", "Test", "Quality Assurance", "QA"],
   // Q3 step 7: document sections that don't say what this deal includes. Mentions there aren't candidates,
   // and checkWorkstreams leaves out a name quoted from one. Matched as whole words in the section name.
   "workstreamIgnoreSections": ["Risks", "Assumptions", "Accelerator", "Accelerators", "Case Study", "Case Studies", "Credentials", "Reference", "References", "Quals", "Qualifications", "Previous Experience", "Resourcing"],

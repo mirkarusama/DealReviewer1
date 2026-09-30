@@ -13,7 +13,7 @@
     {
       "Question": "Are different project streams adequately staffed",
       "Answer": "No",
-      "Note": "No. Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7: the response's workstreams cover Development, Data, EAM; none is missing from the pricing model."
+      "Note": "No. Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7: the response's workstreams cover Analytics, Development, Data, EAM, Security; none is missing from the pricing model."
     },
     {
       "Question": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
@@ -35,7 +35,7 @@
     {
       "Question": "Are different project streams adequately staffed",
       "Answer": "No",
-      "Note": "No. Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7: the response's workstreams cover Development, Data, EAM; none is missing from the pricing model.",
+      "Note": "No. Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7: the response's workstreams cover Analytics, Development, Data, EAM, Security; none is missing from the pricing model.",
       "Issues": "- Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management)."
     },
     {

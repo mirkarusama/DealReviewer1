@@ -1,6 +1,7 @@
 // CheckWorkstreamsTool.cs: checkWorkstreams: matches the workstreams the agent found in the response to the pricing model and gives Q3's answer
 // Used by: Run 2.
-// Request: {"promised":[{"name":"Record to Report","location":"Slide 70","quote":"..."}]} or {"couldNotRead":true}.
+// Request: {"promised":[{"name":"Record to Report","location":"Slide 70","quote":"..."}], "notPromised":[{"workstream":"Finance","reason":"..."}]}
+//          or {"couldNotRead":true}. Every Run 1 candidate counts as promised unless it's in notPromised.
 
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace DealReview
     public sealed class WorkstreamRequest
     {
         public List<PromisedWorkstream> Promised { get; set; } = new List<PromisedWorkstream>();
+        public List<NotPromisedCandidate> NotPromised { get; set; } = new List<NotPromisedCandidate>();   // candidates the agent takes out, with why
         public bool CouldNotRead { get; set; }
         public string Source { get; set; }     // which file the list came from (useful for PDFs)
     }
@@ -31,6 +33,12 @@ namespace DealReview
         public string Name { get; set; }
         public string Location { get; set; }
         public string Quote { get; set; }
+    }
+
+    public sealed class NotPromisedCandidate
+    {
+        public string Workstream { get; set; }
+        public string Reason { get; set; }
     }
 
     /// <summary>checkWorkstreams: code does the matching and Q3's Yes / No / Needs review.</summary>
@@ -55,14 +63,33 @@ namespace DealReview
             var leftOut = new List<object>();       // names code leaves out: not SAP workstreams, or quoted from an ignored section
             var blocks = ctx.ResponseBlocks ?? new List<DocBlock>();
 
+            // Run 1's candidates count as promised, unless the agent took one out with a reason; then the agent's own additions.
+            var promised = new List<PromisedWorkstream>();
+            if (!req.CouldNotRead)
+            {
+                foreach (var c in q.AgentTask.Candidates ?? new List<WorkstreamCandidate>())
+                {
+                    var no = req.NotPromised.FirstOrDefault(n => Text.Norm(n.Workstream) == Text.Norm(c.Workstream) || Text.Norm(n.Workstream) == Text.Norm(c.Label));
+                    if (no != null)
+                    {
+                        string why = string.IsNullOrWhiteSpace(no.Reason) ? "no reason given" : Squash(no.Reason);
+                        q.Flags.Add($"Candidate '{c.Workstream}' ('{c.Label}', {c.Where.FirstOrDefault()?.Location}) was taken out by the agent: {why}");
+                        q.Trail.Add($"Step 7: candidate '{c.Workstream}' taken out by the agent: {why}");
+                        continue;
+                    }
+                    promised.Add(new PromisedWorkstream() { Name = c.Label, Location = c.Where.FirstOrDefault()?.Location, Quote = c.Label });
+                }
+                promised.AddRange(req.Promised);
+            }
+
             if (req.CouldNotRead)
                 q.Unclear("The agent couldn't read the promised workstreams from the response document" + (string.IsNullOrWhiteSpace(req.Source) ? "." : $" ({req.Source})."));
-            else if (req.Promised.Count == 0)
+            else if (promised.Count == 0)
                 q.Unclear("No promised workstreams were given, so step 7 couldn't be checked.");
 
             var seen = new HashSet<string>();
             int unmatched = 0;
-            foreach (var p in req.CouldNotRead ? new List<PromisedWorkstream>() : req.Promised)
+            foreach (var p in promised)
             {
                 string name = Squash(p.Name ?? "");
                 if (name.Length == 0 || !seen.Add(Text.Norm(name))) continue;
@@ -132,7 +159,7 @@ namespace DealReview
             q.AgentTask = null;
             // The Note names SAP workstreams in settings order, never how many names the agent sent or in what order,
             // so two runs that find the same workstreams write the same Note.
-            if (!req.CouldNotRead && req.Promised.Count > 0 && items.Count == 0)
+            if (!req.CouldNotRead && promised.Count > 0 && items.Count == 0)
                 q.Unclear("Every name given was left out (see the trail), so step 7 couldn't be checked.");
             missing.Sort(StringComparer.Ordinal);
             string covered = string.Join(", ", rules.InSapOrder(checkedWs));

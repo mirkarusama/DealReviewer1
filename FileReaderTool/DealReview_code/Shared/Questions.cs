@@ -98,6 +98,7 @@ namespace DealReview
     public sealed class WorkstreamCandidate
     {
         public string Workstream { get; set; }
+        public string Label { get; set; }                  // the best label, as the document writes it ("Data Conversion")
         public bool StaffedInPricingModel { get; set; }
         public int Mentions { get; set; }
         public List<DocBlock> Where { get; set; } = new List<DocBlock>();   // the best few mentions, text cut around the match
@@ -346,11 +347,11 @@ namespace DealReview
                 q.AgentTask.Candidates = candidates;
                 q.AgentTask.AlsoMentioned = also;
                 q.AgentTask.Instruction =
-                    "Step 7: go through agentTask.candidates one by one. Each is an SAP workstream the response uses as a heading, a table row label or a SmartArt box. " +
-                    "Keep it only if the response says Deloitte will deliver it on this deal (a team, scope or work stream table is the best proof); otherwise leave it out. " +
+                    "Step 7: code counts every agentTask.candidates entry as promised: each is an SAP workstream the response uses as a heading, a table row label or a SmartArt box. " +
+                    "Take one out only if where[] shows it isn't something Deloitte delivers on this deal (for example a client's own role or another client's project): list it in notPromised with a one-sentence reason. " +
                     "Then add any other SAP workstream the response promises that isn't a candidate (agentTask.alsoMentioned lists the ones only named in running text). Use searchResponse to look further. " +
                     "Check responseDocument.leftOut too: pictures can't be read, so a team chart pasted as a picture may be missed. " +
-                    "Then call checkWorkstreams with every promised workstream, where you found it and a quote copied exactly from the document. " +
+                    "Then call checkWorkstreams with the workstreams you added (promised: name, location, a quote copied exactly from the document) and any notPromised candidates. " +
                     "Code does the matching and gives Q3's answer; don't match or decide yourself.";
             }
             else
@@ -413,9 +414,11 @@ namespace DealReview
                     if (n > 0) also.Add($"{kv.Key} ({n})");
                     continue;
                 }
+                var best = hits.OrderBy(h => h.rank).ThenBy(h => h.order).First();
                 list.Add(new WorkstreamCandidate()
                 {
                     Workstream = kv.Key,
+                    Label = Text.Squash(best.label),
                     StaffedInPricingModel = model.ContainsKey(kv.Key),
                     Mentions = hits.Count,
                     Where = hits.OrderBy(h => h.rank).ThenBy(h => h.order).Select(h => h.shown)

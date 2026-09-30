@@ -73,7 +73,7 @@ namespace DealReview
         /// <summary>Removes a leading wave number such as "1 - " or "2- " from a team name.</summary>
         public static string StripWavePrefix(string s) => Regex.Replace(s ?? "", @"^\s*\d+\s*-\s*", "");
 
-        /// <summary>Whole-word, case-insensitive match. "AP" matches "AP team" but not "SAP".</summary>
+        /// <summary>Whole-word, case-insensitive match. "AP" matches "AP team" but not "SAP", and "PP" doesn't match "PP&E" (an ampersand between letters joins one term).</summary>
         public static bool HasWord(string text, string word)
         {
             if (string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(word)) return false;
@@ -101,8 +101,9 @@ namespace DealReview
             {
                 if (!Cache.TryGetValue(word, out var rx))
                 {
-                    // letters/digits on either side count as "same word"; spaces inside the keyword may be any whitespace
-                    string pattern = @"(?<![\p{L}\p{N}])" + Regex.Escape(word.Trim()).Replace(@"\ ", @"\s+") + @"(?![\p{L}\p{N}])";
+                    // letters/digits on either side count as "same word", and so does "&" joined to a letter ("PP&E", "R&D");
+                    // spaces inside the keyword may be any whitespace
+                    string pattern = @"(?<![\p{L}\p{N}])(?<![\p{L}\p{N}]&)" + Regex.Escape(word.Trim()).Replace(@"\ ", @"\s+") + @"(?![\p{L}\p{N}])(?!&[\p{L}\p{N}])";
                     rx = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
                     Cache[word] = rx;
                 }
