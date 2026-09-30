@@ -1,0 +1,70 @@
+{
+  "name": "FileReaderTool",
+  "projectId": "3a83c666-b791-4adf-86be-e363cfca8ae0",
+  "description": "Reads .xlsx and .xlsm files\r\n",
+  "main": "Main.xaml",
+  "dependencies": {
+    "System.Text.Json": "[8.0.5]",
+    "UiPath.System.Activities": "[26.8.1]"
+  },
+  "webServices": [],
+  "entitiesStores": [],
+  "schemaVersion": "4.1",
+  "studioVersion": "26.0.202.0",
+  "projectVersion": "1.0.15",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": true,
+    "supportsPersistence": true,
+    "workflowSerialization": "NewtonsoftJson",
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": true,
+    "pipType": "ChildSession"
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Process",
+    "libraryOptions": {
+      "privateWorkflows": []
+    },
+    "processOptions": {
+      "ignoredFiles": []
+    },
+    "fileInfoCollection": [],
+    "saveToCloud": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "585304c5-6d94-4f6c-8146-ab6310384458",
+      "input": [],
+      "output": []
+    },
+    {
+      "filePath": "FileReaderTool\\ReadFiles.cs",
+      "uniqueId": "1daa1c53-0b3c-43fa-a12e-cd8cca9a9513",
+      "input": [],
+      "output": []
+    },
+    {
+      "filePath": "DealTool.xaml",
+      "uniqueId": "696fdfce-0e1b-4c93-a714-87d530a647f8",
+      "input": [],
+      "output": []
+    }
+  ],
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Windows"
+}

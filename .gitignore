@@ -1,0 +1,6 @@
+# UiPath Studio local cache
+FileReaderTool/.local/
+# build output of the test harness
+tests/**/bin/
+tests/**/obj/
+tests/out/

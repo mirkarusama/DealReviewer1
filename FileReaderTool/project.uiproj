@@ -1,0 +1,6 @@
+{
+  "Name": "FileReaderTool",
+  "ProjectType": "Process",
+  "Description": "Reads .xlsx and .xlsm files\r\n",
+  "MainFile": "Main.xaml"
+}

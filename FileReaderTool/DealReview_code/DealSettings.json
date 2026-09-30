@@ -1,0 +1,106 @@
+{
+  // DealReader settings. Business rules live here, not in code.
+  // Comments like this one are allowed. Names are matched ignoring case and extra spaces.
+
+  "questions": {
+    "1": "Is US/USI mix percentage acceptable",
+    "2": "Is the bulge ratio proposed acceptable",
+    "3": "Are different project streams adequately staffed",
+    "4": "Are delivery pools and competency pools leveraged",
+    "5": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
+    "6": "Are EFA and PPMD hrs accounted ?",
+    "7": "Are the rampups and ramp downs inline with project phases",
+    "8": "Does the staffing have enough lead FTE roles"
+  },
+  "onHold": [4, 7],
+
+  // Levels are matched as whole values, never partial text.
+  // A code comes from the Job Level column or the start of the Title ("L45 - Senior Consultant").
+  // "Senior" and "Sr." are treated as "Sr". A trailing "EFA" in old-layout levels is ignored.
+  "juniorLevels": { "titles": ["Associate Analyst", "Analyst", "Consultant"], "codes": ["L25", "L35"] },
+  "seniorLevels": { "titles": ["Sr Consultant", "Manager", "Sr Manager", "Managing Director", "Partner", "Principal"], "codes": ["L40", "L45", "L55", "L65", "LPP", "LL"] },
+  "leadLevels": { "titles": ["Sr Consultant", "Manager"], "codes": ["L45", "L55"] },
+  "managingDirectorLevels": { "titles": ["Managing Director"], "codes": ["LMD"] },
+
+  "usiGeographies": ["India"],
+  "usiCohorts": ["USI"],
+  // Known non-USI values. A Geography on neither list makes Q1 "Needs review" and is named in the Note.
+  // Check the Q1 trail ("Hours by Geography") on a few real deals and add the exact spellings you see.
+  "nonUsiGeographies": ["United States", "US", "USA", "Mexico", "Other Member Firm", "US - Project"],
+  // Same for the old layout's Resource Cohort. Empty = not checked.
+  "nonUsiCohorts": [],
+  "efaKeywords": ["EFA", "Engagement Financial Advisor"],
+
+  "thresholds": {
+    "usiMinPct": 70, "usiMaxPct": 80,
+    "nonUsiMinPct": 20, "nonUsiMaxPct": 30,
+    "bulgeMin": 1.9, "bulgeMax": 2.1,
+    "nextGenMinPct": 95,
+    "efaMinHoursPerPeriod": 5, "efaMaxHoursPerPeriod": 10, "efaPeriodsToCheck": 4,
+    "mdMinPct": 0.3, "mdMaxPct": 0.5,
+    // Q8: true = 25% rounded to the nearest whole person (exactly half-way accepts both); false = at least 25%.
+    "leadPct": 25, "leadPctMustBeExact": true
+  },
+
+  // NextGen resource group -> pricing model "Phase / Work Team" names.
+  // Wave numbers are ignored, so "PMO" covers "1 - PMO", "2 - PMO" and plain "PMO".
+  "functionalGroup": "Functional",
+  "nextGenTeamMapping": {
+    "Project Management": ["Leadership", "PMO", "LEP", "GDM"],
+    "Data": ["Tech - Data", "Data"],
+    "Deployment": ["Integration/Solution/Cutover/Testing", "Test/Cutover"],
+    "Development": ["Tech - ABAP/CPI", "Development", "Integration"],
+    "Functional": ["Functional - OTC", "Functional - RTR", "Functional - PTP", "Functional - Operations", "Finance", "OTC", "Procurement & Ariba", "SCM / Manufacturing", "EWM"],
+    "Change Management": ["OCM"],
+    "Infrastructure": ["Basis"],
+    "Testing": ["Test", "Validation"],
+    "Security": ["Cyber"]
+  },
+  // NextGen group names that mean the same as a mapping key.
+  "nextGenGroupAliases": { "Security & Controls": "Security","Service Delivery": "Project Management" },
+
+  // Used only when a row has no Work Team (or an unknown one): keywords in the role name.
+  // Checked top to bottom; the first rule that matches wins. A role matching several groups is flagged.
+  "roleKeywordRules": [
+    { "group": "Project Management", "keywords": ["Global Delivery Manager", "GDM"] },
+    { "group": "Deployment", "keywords": ["Cutover"] },
+    { "group": "Change Management", "keywords": ["Change", "OCM", "Training", "WalkMe"] },
+    { "group": "Security", "keywords": ["Security", "Controls", "Cyber", "GRC"] },
+    { "group": "Data", "keywords": ["Data", "Reporting", "Analytics", "BODS", "Migration"] },
+    { "group": "Infrastructure", "keywords": ["Basis", "Infrastructure"] },
+    { "group": "Testing", "keywords": ["Test", "Testing", "Validation", "QA"] },
+    { "group": "Development", "keywords": ["ABAP", "BTP", "UI5", "CPI", "Fiori", "Technical", "Development"] },
+    { "group": "Functional", "keywords": ["Functional", "EAM", "Finance", "OTC", "PTP", "RTR", "Procurement", "SCM", "Manufacturing", "EWM", "Supply Chain", "Sales"] },
+    { "group": "Project Management", "keywords": ["PMO", "Leadership", "Program Manager", "Project Manager", "Pursuit Leader"] }
+  ],
+
+  // SAP workstreams for Q3 step 7 (response document vs pricing model). Whole-word matching.
+  "sapWorkstreams": {
+    "Procurement": ["PTP", "P2P", "STP", "S2P", "Procure to Pay", "Source to Pay", "Materials Management", "MM","Ariba", "Sourcing", "Direct Procurement", "Indirect Procurement"],
+    "Finance": ["FI", "RTR", "R2R", "FICO", "Record to Report", "GL", "AP", "AR", "Financial Accounting", "General Ledger", "Fixed Assets", "FSCM"],
+    "Manufacturing": ["MFG", "PP", "Make to Order", "MTO", "Production Planning", "Plan to Make", "PTM", "IBP", "QM", "Quality Management"],
+    "Sales": ["SD", "OTC", "O2C", "Order to Cash", "Sales and Distribution", "Pricing", "Billing", "Invoicing"],
+    "Supply chain": ["EWM", "WM", "Logistics", "TM", "Warehouse Management", "IM"],
+    "Analytics": ["SAC", "Reporting", "BW", "Embedded Analytics", "BDC", "Data Fabrics", "Datasphere"],
+    "Human Resources": ["HR", "HCM", "Success Factors", "SuccessFactors", "HTR", "Hire to Retire", "Workday", "UKG"],
+    "Tax": ["Vertex"],
+    "Development": ["ABAP", "CPI", "FIORI", "Middleware", "Integrations", "Integration"],
+    "Basis": ["Basis", "Infrastructure", "RISE"],
+    "Data": ["BODS", "Syniti", "Data Migration"],
+    "MDG": ["MDG", "Master Data"],
+    "EAM": ["EAM", "Plant Maintenance", "SAP PM"],
+    "Security": ["Security", "Controls", "GRC"]
+  },
+
+  "classifier": {
+    "ownFirmName": "Deloitte",
+    "responseMinFirmMentions": 10,
+    "rfpMaxFirmMentions": 2,
+    "rfpPhrases": ["Request for Proposal"],
+    "rfpMinAcronymCount": 3,
+    "readoutMarkers": ["SA Readout"],
+    "pricingModelSheets": ["Engagement Metrics", "Resourcing"],
+    "nextGenSheets": ["Raw Data"],
+    "nextGenColumns": ["Resource Group", "SourceGroupType", "Effort"]
+  }
+}

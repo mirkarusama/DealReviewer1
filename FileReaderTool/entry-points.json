@@ -1,0 +1,43 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "entryPoints": [
+    {
+      "filePath": "DealTool.xaml",
+      "uniqueId": "696fdfce-0e1b-4c93-a714-87d530a647f8",
+      "type": "process",
+      "input": {
+        "type": "object",
+        "properties": {
+          "in_Request": {
+            "type": "string"
+          },
+          "in_SnapshotId": {
+            "type": "string"
+          },
+          "in_Action": {
+            "type": "string"
+          }
+        },
+        "required": []
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "out_Result": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "filePath": "FileReaderTool\\ReadFiles.cs",
+      "uniqueId": "1daa1c53-0b3c-43fa-a12e-cd8cca9a9513",
+      "type": "process"
+    },
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "585304c5-6d94-4f6c-8146-ab6310384458",
+      "type": "process"
+    }
+  ]
+}
