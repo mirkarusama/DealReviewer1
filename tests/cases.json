@@ -349,6 +349,208 @@
         "couldNotRead": true,
         "source": "Project_3_RFP_Response.docx"
       }
+    },
+    {
+      "name": "Set3.team-table",
+      "set": "Set3",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'the program Program — SAP PM Implementation'",
+            "quote": "the program Program — SAP PM Implementation"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Data Conversion"
+          },
+          {
+            "name": "Security & Controls",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Security & Controls"
+          },
+          {
+            "name": "Integration and cutover",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Integration and cutover"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3.every-candidate",
+      "set": "Set3",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'the program Program — SAP PM Implementation'",
+            "quote": "the program Program — SAP PM Implementation"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Data Conversion"
+          },
+          {
+            "name": "Security & Controls",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Security & Controls"
+          },
+          {
+            "name": "Integration and cutover",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Integration and cutover"
+          },
+          {
+            "name": "Quality Management",
+            "location": "Table 5, section 'Risk Management Lifecycle'",
+            "quote": "Plan Quality Management"
+          },
+          {
+            "name": "Analytics",
+            "location": "Section 'Change Strategy & Analytics'",
+            "quote": "Change Strategy & Analytics"
+          }
+        ]
+      },
+      "// why": "Keeping the noise candidates (Quality Management, Analytics) makes Manufacturing 'not staffed': the agent must leave them out."
+    },
+    {
+      "name": "Set3.made-up-quote",
+      "set": "Set3",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'the program Program — SAP PM Implementation'",
+            "quote": "the program Program — SAP PM Implementation"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Data Conversion"
+          },
+          {
+            "name": "Security & Controls",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Security & Controls"
+          },
+          {
+            "name": "Integration and cutover",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Integration and cutover"
+          },
+          {
+            "name": "Basis",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Deloitte will provide a dedicated Basis team for the program"
+          }
+        ]
+      },
+      "// why": "A quote that isn't in the document is flagged for a reviewer."
+    },
+    {
+      "name": "Set3-step6-pass.team-table",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'the program Program — SAP PM Implementation'",
+            "quote": "the program Program — SAP PM Implementation"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Data Conversion"
+          },
+          {
+            "name": "Security & Controls",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Security & Controls"
+          },
+          {
+            "name": "Integration and cutover",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Integration and cutover"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3-step6-pass.every-candidate",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'the program Program — SAP PM Implementation'",
+            "quote": "the program Program — SAP PM Implementation"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Data Conversion"
+          },
+          {
+            "name": "Security & Controls",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Security & Controls"
+          },
+          {
+            "name": "Integration and cutover",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Integration and cutover"
+          },
+          {
+            "name": "Quality Management",
+            "location": "Table 5, section 'Risk Management Lifecycle'",
+            "quote": "Plan Quality Management"
+          },
+          {
+            "name": "Analytics",
+            "location": "Section 'Change Strategy & Analytics'",
+            "quote": "Change Strategy & Analytics"
+          }
+        ]
+      },
+      "// why": "Keeping the noise candidates (Quality Management, Analytics) makes Manufacturing 'not staffed': the agent must leave them out."
+    },
+    {
+      "name": "Set3-step6-pass.made-up-quote",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'the program Program — SAP PM Implementation'",
+            "quote": "the program Program — SAP PM Implementation"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Data Conversion"
+          },
+          {
+            "name": "Security & Controls",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Security & Controls"
+          },
+          {
+            "name": "Integration and cutover",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Integration and cutover"
+          },
+          {
+            "name": "Basis",
+            "location": "Table 21, section 'Proposed Project Team'",
+            "quote": "Deloitte will provide a dedicated Basis team for the program"
+          }
+        ]
+      },
+      "// why": "A quote that isn't in the document is flagged for a reviewer."
     }
   ],
   "agentOutputs": [
@@ -374,7 +576,9 @@
       "Set3-step6-pass.agent-today",
       "Set3-step6-pass.plain-names",
       "Set3-step6-pass.today-plus-ocm-testing",
-      "Set3-step6-pass.today-plus-controls"
+      "Set3-step6-pass.today-plus-controls",
+      "Set3-step6-pass.team-table",
+      "Set3-step6-pass.made-up-quote"
     ]
   ]
 }

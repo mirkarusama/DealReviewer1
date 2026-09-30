@@ -92,6 +92,13 @@
     "Security": ["Security", "Controls", "GRC"]
   },
 
+  // Q3 step 7: names that aren't SAP workstreams. checkWorkstreams leaves them out, so whether the agent lists them
+  // can't change Q3. Only used for names that match no sapWorkstreams entry ("Data Migration Testing" still counts as Data).
+  "notSapWorkstreams": ["Project Management", "Program Management", "PMO", "Governance", "Change Management", "Organizational Change Management", "Organisational Change Management", "OCM", "Training", "Testing", "Test", "Quality Assurance", "QA"],
+  // Q3 step 7: document sections that don't say what this deal includes. Mentions there aren't candidates,
+  // and checkWorkstreams leaves out a name quoted from one. Matched as whole words in the section name.
+  "workstreamIgnoreSections": ["Risks", "Assumptions", "Accelerator", "Accelerators", "Case Study", "Case Studies", "Credentials", "Reference", "References", "Quals", "Qualifications", "Previous Experience", "Resourcing"],
+
   "classifier": {
     "ownFirmName": "Deloitte",
     "responseMinFirmMentions": 10,

@@ -2,7 +2,7 @@
   "ok": true,
   "error": null,
   "answer": "Yes",
-  "summary": "Yes. Step 6 pass: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 70% is needed. Step 7: checked 4 workstream name(s) from the response, covering EAM, Development, Data, Security; none is missing from the pricing model.",
+  "summary": "Yes. Step 6 pass: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 70% is needed. Step 7: the response's workstreams cover Development, Data, EAM, Security; none is missing from the pricing model.",
   "reviewReasons": [],
   "flags": [
     "Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management)."

@@ -154,7 +154,7 @@
       "settingsHints": [],
       "agentTask": {
         "action": "checkWorkstreams",
-        "instruction": "Step 7: find every workstream this response document says Deloitte will deliver. A team, scope or work stream table is the best source. Start with responseDocument.evidence and use searchResponse to look further (by slide or section, or words like 'team', 'scope', 'work stream'). Check responseDocument.leftOut too: pictures can't be read, so a team chart pasted as a picture may be missed. Then call checkWorkstreams with every promised workstream, where you found it and a short quote. Code does the matching and gives Q3's answer; don't match or decide yourself.",
+        "instruction": "Step 7: go through agentTask.candidates one by one. Each is an SAP workstream the response uses as a heading, a table row label or a SmartArt box. Keep it only if the response says Deloitte will deliver it on this deal (a team, scope or work stream table is the best proof); otherwise leave it out. Then add any other SAP workstream the response promises that isn't a candidate (agentTask.alsoMentioned lists the ones only named in running text). Use searchResponse to look further. Check responseDocument.leftOut too: pictures can't be read, so a team chart pasted as a picture may be missed. Then call checkWorkstreams with every promised workstream, where you found it and a quote copied exactly from the document. Code does the matching and gives Q3's answer; don't match or decide yourself.",
         "hoursCheckPassed": true,
         "modelWorkstreams": {
           "Development": [
@@ -206,6 +206,144 @@
           "EFA (304 hrs)",
           "Manager Contingency Hours (220 hrs)",
           "GDM (88 hrs)"
+        ],
+        "candidates": [
+          {
+            "workstream": "Manufacturing",
+            "staffedInPricingModel": false,
+            "mentions": 3,
+            "where": [
+              {
+                "kind": "table row",
+                "location": "Table 5, section 'Risk Management Lifecycle'",
+                "text": "Plan Quality Management | Practice of defining the project’s quality objectives and expectations, and planning the tasks, procedures, tools, and participants that will perform the quality activities for the project. We plan the strategy, …"
+              },
+              {
+                "kind": "table row",
+                "location": "Table 12, section 'Communication & Engagement'",
+                "text": "PP&E Accountant | Capital vs. expense classification and CWIP settlement are embedded in SAP PM work order processing. Faces system and behavioural change — controls accountability changes alongside the tool. | Indiana, Ohio, MVLt"
+              },
+              {
+                "kind": "heading",
+                "location": "Section 'Risk Management, Governance & Quality Management'",
+                "text": "Risk Management, Governance & Quality Management"
+              }
+            ]
+          },
+          {
+            "workstream": "Analytics",
+            "staffedInPricingModel": true,
+            "mentions": 3,
+            "where": [
+              {
+                "kind": "table row",
+                "location": "Table 11, section 'Change Management Methodology'",
+                "text": "Pillar 1 Change Strategy & Analytics | Leveraging existing diagnostics to right-size SAP PM change interventions"
+              },
+              {
+                "kind": "heading",
+                "location": "Section 'Change Strategy & Analytics'",
+                "text": "Change Strategy & Analytics"
+              },
+              {
+                "kind": "heading",
+                "location": "Section 'Pillar 5 — Post Go-Live Analytics and Support'",
+                "text": "Pillar 5 — Post Go-Live Analytics and Support"
+              }
+            ]
+          },
+          {
+            "workstream": "Development",
+            "staffedInPricingModel": true,
+            "mentions": 6,
+            "where": [
+              {
+                "kind": "table row",
+                "location": "Table 21, section 'Proposed Project Team'",
+                "text": "Integration and cutover | Test Manager will participate in the consolidated the program Program weekly status meeting and the monthly Steering Committee Test Readiness review Contributing to the Program Health Testing / Progress dimension …"
+              },
+              {
+                "kind": "table row",
+                "location": "Table 7, section 'Development & Integration Methodology'",
+                "text": "Standard SAP Integration Content | Leverage SAP’s native, out-of-the-box integration content wherever possible. This includes pre-delivered content for SuccessFactors, Service cloud and several other solutions. Benefits: Standard content …"
+              },
+              {
+                "kind": "table row",
+                "location": "Table 7, section 'Development & Integration Methodology'",
+                "text": "File based integration | File-based integration should be reserved and approved for exception cases, such as when standard SAP programs require or generate specific file formats (for e.g. XML and BAI formats for banks) when handling …"
+              }
+            ]
+          },
+          {
+            "workstream": "Data",
+            "staffedInPricingModel": true,
+            "mentions": 6,
+            "where": [
+              {
+                "kind": "table row",
+                "location": "Table 21, section 'Proposed Project Team'",
+                "text": "Data Conversion | The SI ow ns the conversion execution approach: Extract → Profile → Transform → Cleanse → Enrich → Load → Test → Validate & Reconcile The SI is responsible for extract specifications, map ping, transformation/load …"
+              },
+              {
+                "kind": "table row",
+                "location": "Table 8, section 'Development & Integration Methodology'",
+                "text": "Data Store / JMS Queues | Leverage Data Store or JMS queues for buffering, retry, and decoupling high-volume message flows."
+              },
+              {
+                "kind": "table row",
+                "location": "Table 9, section 'Data conversion methodology'",
+                "text": "Data Profiling | Power BI, Inhouse visualization tool at Project 3 | Assess data quality, completeness, and exceptions; support profiling insights and cleansing prioritization"
+              }
+            ]
+          },
+          {
+            "workstream": "EAM",
+            "staffedInPricingModel": true,
+            "mentions": 2,
+            "where": [
+              {
+                "kind": "table row",
+                "location": "Table 2",
+                "text": "the program Program — SAP PM Implementation System Integrator RFP Response Submitted to: Project 3 Submitted by: Deloitte Date: July 17, 2026 Primary Contact: [Contact Name] | [email] | [phone]"
+              },
+              {
+                "kind": "heading",
+                "location": "Section 'the program Program — SAP PM Implementation'",
+                "text": "the program Program — SAP PM Implementation"
+              }
+            ]
+          },
+          {
+            "workstream": "Security",
+            "staffedInPricingModel": true,
+            "mentions": 5,
+            "where": [
+              {
+                "kind": "table row",
+                "location": "Table 21, section 'Proposed Project Team'",
+                "text": "Security & Controls | supports controls design and governance; delivers design recommendations, control test plans, SoD ruleset configuration, deploys monitoring control s through GRC tooling, walks Project 3 teams through test of design, …"
+              },
+              {
+                "kind": "table row",
+                "location": "Table 10, section '8.1 Overview'",
+                "text": "Security Testing | Validates that the SAP PM authorization model enforces appropriate role-based access controls, segregation of duties, and data protection requirements across all user roles and OpCos. | Role-assigned test users | Manual …"
+              },
+              {
+                "kind": "table row",
+                "location": "Table 10, section '8.1 Overview'",
+                "text": "Controls Testing | Validates that key application controls embedded in the the program solution are operating as designed and meet Project 3's internal control framework and audit requirements. | SIT / UAT / Production data | Manual | …"
+              }
+            ]
+          }
+        ],
+        "alsoMentioned": [
+          "Procurement (2)",
+          "Finance (5)",
+          "Sales (2)",
+          "Supply chain (3)",
+          "Human Resources (1)",
+          "Basis (4)",
+          "MDG (8)"
         ]
       }
     },

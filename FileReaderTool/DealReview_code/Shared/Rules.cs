@@ -157,5 +157,40 @@ namespace DealReview
             return matches.Where(m => !matches.Any(o => o.ws != m.ws && o.kw.Length > m.kw.Length && Text.HasWord(o.kw, m.kw)))
                           .Select(m => m.ws).Distinct().ToList();
         }
+
+        /// <summary>
+        /// The notSapWorkstreams entry a name refers to ("OCM", "Testing", "PMO"), or null.
+        /// Only for names that aren't an SAP workstream, so "Data Migration Testing" still counts as Data.
+        /// </summary>
+        public string NotSapWorkstream(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name) || SapWorkstreams(name).Count > 0) return null;
+            return _s.NotSapWorkstreams.FirstOrDefault(n => Text.HasWord(name, n));
+        }
+
+        /// <summary>
+        /// The workstreamIgnoreSections entry a document location falls under ("Risks", "Case Study"), or null.
+        /// Only the section name is checked ("Table 17, section 'Risks & Assumptions'" → "Risks & Assumptions").
+        /// </summary>
+        public string IgnoredSection(string location)
+        {
+            string section = SectionOf(location);
+            if (section.Length == 0) return null;
+            return _s.WorkstreamIgnoreSections.FirstOrDefault(w => Text.HasWord(section, w));
+        }
+
+        /// <summary>The section name in a location ("Section 'X'" or "..., section 'X'"), or "" (e.g. "Slide 12").</summary>
+        public static string SectionOf(string location)
+        {
+            var m = Regex.Match(location ?? "", @"section\s+'(.*)'", RegexOptions.IgnoreCase);
+            return m.Success ? m.Groups[1].Value.Trim() : "";
+        }
+
+        /// <summary>Sorts SAP workstream names in sapWorkstreams order, so the Note doesn't depend on the order the agent listed them.</summary>
+        public List<string> InSapOrder(IEnumerable<string> workstreams)
+        {
+            var keys = _s.SapWorkstreams.Keys.ToList();
+            return workstreams.Distinct().OrderBy(w => keys.IndexOf(w) < 0 ? int.MaxValue : keys.IndexOf(w)).ThenBy(w => w, StringComparer.Ordinal).ToList();
+        }
     }
 }

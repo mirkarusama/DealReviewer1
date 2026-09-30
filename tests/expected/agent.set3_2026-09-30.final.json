@@ -13,7 +13,7 @@
     {
       "Question": "Are different project streams adequately staffed",
       "Answer": "No",
-      "Note": "No. Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7: checked 4 workstream name(s) from the response, covering EAM, Development, Data, Security; none is missing from the pricing model."
+      "Note": "No. Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7: the response's workstreams cover Development, Data, EAM; none is missing from the pricing model."
     },
     {
       "Question": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
@@ -35,7 +35,7 @@
     {
       "Question": "Are different project streams adequately staffed",
       "Answer": "No",
-      "Note": "No. Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7: checked 4 workstream name(s) from the response, covering EAM, Development, Data, Security; none is missing from the pricing model.",
+      "Note": "No. Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7: the response's workstreams cover Development, Data, EAM; none is missing from the pricing model.",
       "Issues": "- Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management)."
     },
     {
@@ -45,5 +45,7 @@
       "Issues": "- No staffed hours for 'Testing' in the pricing model, while NextGen estimates 9,731.9 hrs.\n- 2 pricing row(s) (524 hrs) match no NextGen group, so they count in the overall total only: Manager Contingency Hours 220; EFA 304.\n- Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'Global Delivery Manager - Functional and Technical' → Project Management (also Development, Functional); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management); 'Data Lead Offshore- Techno/Functional' → Data (also Functional); 'Technical Data Team Member' → Data (also Development); 'Integration and Cutover Lead (with EAM Skillset)' → Deployment (also Functional).\n- Suggested settings change: add a keyword from \"Manager Contingency Hours\" to roleKeywordRules under its NextGen group, or leave it if the role has no NextGen group"
     }
   ],
-  "corrections": []
+  "corrections": [
+    "Q3: the agent's Note differed from the code's; the code's text was used."
+  ]
 }

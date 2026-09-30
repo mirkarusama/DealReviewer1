@@ -38,6 +38,13 @@ Main.xaml  (robot that can see the deal folder)
 
 **Q3 is finished by the agent's tool.** After Run 1, Q3 has no answer yet (`decidedBy: "waiting for checkWorkstreams"`). The agent lists the workstreams the response document promises and sends them to `checkWorkstreams`. Code then does the matching and gives Q3's answer.
 
+Q3 is the only answer that depends on the agent's reading, so code narrows what the agent has to decide:
+
+- **Candidates.** Run 1 lists every SAP workstream the response uses as a label (a heading, the first cell of a table row, or a SmartArt box) in `agentTask.candidates`, with where. The agent keeps or leaves out each one. Workstreams only named in running text are in `agentTask.alsoMentioned`, by name.
+- **Left out by code.** `checkWorkstreams` leaves out names on `notSapWorkstreams` (PMO, OCM, testing…) and names quoted from a section on `workstreamIgnoreSections` (risks, assumptions, other clients' references…). They're listed in the trail and in `values.leftOutWorkstreams`, and can't change the answer.
+- **Quotes are checked.** A quote that isn't in the document gets a flag for a reviewer. The document's own location is used for the section check.
+- **The Note names the SAP workstreams covered, in `sapWorkstreams` order,** never how many names the agent sent or in what order. Two runs that find the same workstreams write the same Note.
+
 ---
 
 ## Questions answered
@@ -112,7 +119,7 @@ If FinalTables can't build the tables, it returns `{"error": …, "agentOutput":
 - **Agent process** `Agent`, in the folder `SRB Process/SRBReviewAgent`:
   - Input: `snapshotId` (string).
   - Output: `table1`, `table2`, `q3Request`.
-  - System prompt: the agent prompt file (role, rules, Q3 steps, recheck rules, output format).
+  - System prompt: `FileReaderTool/AgentPrompt.md` (role, rules, Q3 steps, recheck rules, output format). Keep the agent builder's copy the same as this file.
   - Tool: DealTool.xaml.
 - **DealTool.xaml arguments:**
   - `in_Action` (in, String): the tool action.
@@ -155,7 +162,9 @@ Every business rule is here. Changing a rule never needs a code change. Comments
 - `thresholds`: every percentage and ratio limit.
 - `functionalGroup`, `nextGenTeamMapping`, `nextGenGroupAliases`: how pricing model teams map to NextGen resource groups (Q3, Q5). Wave prefixes such as "1 - " are ignored.
 - `roleKeywordRules`: fallback grouping by role name when a row has no known team. Rules are checked top to bottom.
-- `sapWorkstreams`: SAP workstreams and their synonyms (Q3 step 7, and picking the response document's evidence).
+- `sapWorkstreams`: SAP workstreams and their synonyms (Q3 step 7, and picking the response document's evidence and candidates).
+- `notSapWorkstreams`: names that aren't SAP workstreams (PMO, OCM, testing…). checkWorkstreams leaves them out. A name can't be on both lists.
+- `workstreamIgnoreSections`: words in a section name that mean the section doesn't say what this deal includes (risks, assumptions, references…). No candidates come from there, and a name quoted from there is left out.
 - `classifier`: how files are recognised.
 
 The settings are checked when they load. A team mapped to two groups, or a group name that doesn't exist, stops the run with a plain message.
@@ -182,6 +191,7 @@ The tool never throws. Every problem comes back as `{"ok": false, "action": …,
 ## Project structure
 
 ```
+AgentPrompt.md          the agent's system prompt (paste into the agent builder)
 Main.xaml               Run 1: the robot workflow
 DealTool.xaml           Run 2: the agent's tool
 DealReview_code/
@@ -231,14 +241,32 @@ See `DealReview_code/CODE_MAP.md` for more on each file.
 ## Changing the code
 
 - Keep **one** copy of `Shared/`. Run 2's rechecks must use exactly the same rules as Run 1.
-- After any change, republish the tool, then rerun the sample deals and compare them with their saved outputs.
+- After any change, run the regression tests (below), then republish the tool.
 - Put new business rules in `DealSettings.json`, not in code.
+
+## Regression tests
+
+`tests/run.sh` compiles `DealReview_code` with the .NET 8 SDK (no UiPath needed) and runs the cases in `tests/cases.json` against the sample deals in `Set1`–`Set3`:
+
+- **sets:** Run 1 on each deal. Saves the review and the final tables code alone would write. `Set3-step6-pass` lowers the Q3 step 6 limit, because every sample deal fails step 6, which hides step 7.
+- **q3:** `checkWorkstreams` with different lists a model could plausibly send.
+- **agentOutputs:** real agent outputs (`tests/agent_outputs/`) put through `FinalTables`, as Main.xaml does.
+- **sameAnswer:** lists that must give Q3 the same answer. This is the consistency check.
+
+```
+tests/run.sh            # compare with tests/expected; exit code 1 on any difference
+tests/run.sh --update   # accept this run as expected, then review the git diff
+```
+
+To add a deal, put its files in a new folder and add it to `sets`. To keep a real agent run, save its agent output JSON in `tests/agent_outputs/` and add it to `agentOutputs`.
 
 ---
 
 ## Known issues
 
 - `CODE_MAP.md` and a comment in `DealReader.cs` still give the settings path as `Data\DealSettings.json`. The workflow actually uses `DealReview_code\DealSettings.json`.
+- Some `sapWorkstreams` synonyms match things that aren't SAP workstreams, which adds noise candidates: `PP` matches "PP&E", `Quality Management` matches project quality management, and `Analytics` matches "Change Strategy & Analytics". The prompt tells the agent to leave those out.
+- A PowerPoint response has no section names ("Slide 12"), so `workstreamIgnoreSections` can't apply there.
 - `Main.xaml` still has a commented-out step from an older version: `FileReaderTool` with a hard-coded path and an undeclared `summaryJson` variable. The `FileReaderTool` imports are also still there.
 - When the files aren't right, the run only logs a warning and writes no output file.
 - The Run Job account is hard-coded.

@@ -89,7 +89,18 @@ namespace DealReview
         public List<string> PdfFiles { get; set; }          // PDFs code can't read (only when there's no Word/PowerPoint response)
         public Dictionary<string, List<string>> ModelWorkstreams { get; set; }
         public List<string> ModelTeamsNotInSapList { get; set; }
+        public List<WorkstreamCandidate> Candidates { get; set; }   // SAP workstreams used as a label (heading, table row, SmartArt box), for the agent to confirm or leave out
+        public List<string> AlsoMentioned { get; set; }             // SAP workstreams only named in running text, with how many paragraphs ("Procurement (3)")
         [JsonIgnore] public List<string> TeamNamesNotInSapList { get; set; } = new List<string>();
+    }
+
+    /// <summary>An SAP workstream the response uses as a label (a heading, a table row's first cell, a SmartArt box) outside the ignored sections, with where.</summary>
+    public sealed class WorkstreamCandidate
+    {
+        public string Workstream { get; set; }
+        public bool StaffedInPricingModel { get; set; }
+        public int Mentions { get; set; }
+        public List<DocBlock> Where { get; set; } = new List<DocBlock>();   // the best few mentions, text cut around the match
     }
 
     public static class Checks
@@ -330,12 +341,18 @@ namespace DealReview
                 TeamNamesNotInSapList = notInListNames
             };
             if (ctx.Response != null)
+            {
+                var (candidates, also) = WorkstreamCandidates(ctx.ResponseBlocks ?? new List<DocBlock>(), rules, model);
+                q.AgentTask.Candidates = candidates;
+                q.AgentTask.AlsoMentioned = also;
                 q.AgentTask.Instruction =
-                    "Step 7: find every workstream this response document says Deloitte will deliver. A team, scope or work stream table is the best source. " +
-                    "Start with responseDocument.evidence and use searchResponse to look further (by slide or section, or words like 'team', 'scope', 'work stream'). " +
+                    "Step 7: go through agentTask.candidates one by one. Each is an SAP workstream the response uses as a heading, a table row label or a SmartArt box. " +
+                    "Keep it only if the response says Deloitte will deliver it on this deal (a team, scope or work stream table is the best proof); otherwise leave it out. " +
+                    "Then add any other SAP workstream the response promises that isn't a candidate (agentTask.alsoMentioned lists the ones only named in running text). Use searchResponse to look further. " +
                     "Check responseDocument.leftOut too: pictures can't be read, so a team chart pasted as a picture may be missed. " +
-                    "Then call checkWorkstreams with every promised workstream, where you found it and a short quote. " +
+                    "Then call checkWorkstreams with every promised workstream, where you found it and a quote copied exactly from the document. " +
                     "Code does the matching and gives Q3's answer; don't match or decide yourself.";
+            }
             else
             {
                 q.AgentTask.PdfFiles = ctx.PdfFiles.ToList();
@@ -344,6 +361,83 @@ namespace DealReview
                     "Call checkWorkstreams with {\"couldNotRead\": true, \"source\": \"<the PDF file name>\"}.";
             }
             return q;
+        }
+
+        private const int MaxCandidateMentions = 3;
+        private const int CandidateSnippetChars = 240;
+        private static readonly string[] StructureWords = { "Work Stream", "Workstream", "Work Streams", "Workstreams", "Tower", "Towers", "Team", "Scope" };
+
+        /// <summary>
+        /// Step 7's checklist for the agent: every SAP workstream the response uses as a label — a heading, the first cell
+        /// of a table row, or a SmartArt box — outside the ignored sections, with its best mentions (rows of team / scope /
+        /// work stream tables first). Labels are where a response lists what it delivers ("Data Conversion | ...");
+        /// running text mentions everything ("billing", "procurement"), so those go in the second list, by name only.
+        /// The agent confirms or leaves out each candidate, so every run starts from the same list.
+        /// </summary>
+        private static (List<WorkstreamCandidate>, List<string>) WorkstreamCandidates(List<DocBlock> blocks, Rules rules, Dictionary<string, List<string>> model)
+        {
+            // Every label in the document, with a rank: 0 = row of a team / scope / work stream table, 1 = other table row or SmartArt box, 2 = heading.
+            var labels = new List<(int rank, int order, string label, DocBlock shown)>();
+            var prose = new List<string>();
+            for (int i = 0; i < blocks.Count; i++)
+            {
+                var b = blocks[i];
+                if (rules.IgnoredSection(b.Location) != null) continue;
+                if (b.Kind == "heading") labels.Add((2, i, b.Text, new DocBlock() { Kind = b.Kind, Location = b.Location, Text = Around(b.Text, 0) }));
+                else if (b.Kind == "table")
+                {
+                    var rows = (b.Text ?? "").Split('\n');
+                    bool structure = StructureWords.Any(w => Text.HasWord(rows[0], w) || Text.HasWord(Rules.SectionOf(b.Location), w));
+                    foreach (var row in rows)
+                    {
+                        string first = row.Split(new[] { " | " }, StringSplitOptions.None)[0];
+                        labels.Add((structure ? 0 : 1, i, first, new DocBlock() { Kind = "table row", Location = b.Location, Text = Around(row, 0) }));
+                    }
+                }
+                else if (b.Kind == "smartart")
+                    foreach (var box in (b.Text ?? "").Split(new[] { " | " }, StringSplitOptions.None))
+                        labels.Add((1, i, box, new DocBlock() { Kind = b.Kind, Location = b.Location, Text = Around(box, 0) }));
+                else prose.Add(b.Text);
+            }
+
+            var list = new List<WorkstreamCandidate>();
+            var also = new List<string>();
+            foreach (var kv in rules.Settings.SapWorkstreams)
+            {
+                // A label counts only if this workstream is what it names ("Master Data" names MDG, not Data).
+                var hits = labels.Where(l => rules.SapWorkstreams(l.label).Contains(kv.Key)).ToList();
+                if (hits.Count == 0)
+                {
+                    var keywords = kv.Value.Append(kv.Key).ToList();
+                    int n = prose.Count(t => keywords.Any(k => Text.HasWord(t, k)));
+                    if (n > 0) also.Add($"{kv.Key} ({n})");
+                    continue;
+                }
+                list.Add(new WorkstreamCandidate()
+                {
+                    Workstream = kv.Key,
+                    StaffedInPricingModel = model.ContainsKey(kv.Key),
+                    Mentions = hits.Count,
+                    Where = hits.OrderBy(h => h.rank).ThenBy(h => h.order).Select(h => h.shown)
+                                .GroupBy(d => d.Location + "\u0001" + d.Text).Select(g => g.First())
+                                .Take(MaxCandidateMentions).ToList()
+                });
+            }
+            return (list, also);
+        }
+
+        /// <summary>The text around position at, cut to CandidateSnippetChars, on whitespace.</summary>
+        private static string Around(string text, int at)
+        {
+            text = Text.Squash(text);
+            if (text.Length <= CandidateSnippetChars) return text;
+            at = Math.Max(0, Math.Min(at, text.Length - 1));
+            int start = Math.Max(0, at - CandidateSnippetChars / 3);
+            int end = Math.Min(text.Length, start + CandidateSnippetChars);
+            start = Math.Max(0, end - CandidateSnippetChars);
+            if (start > 0) { int sp = text.IndexOf(' ', start); if (sp > 0 && sp < at) start = sp + 1; }
+            if (end < text.Length) { int sp = text.LastIndexOf(' ', end); if (sp > at) end = sp; }
+            return (start > 0 ? "… " : "") + text.Substring(start, end - start) + (end < text.Length ? " …" : "");
         }
 
         // ---------------- Q5: staffing hours vs NextGen ----------------

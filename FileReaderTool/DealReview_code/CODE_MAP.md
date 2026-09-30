@@ -42,7 +42,7 @@ Agent ── DealTool.xaml ── DealTools.Recheck ◄┘ downloaded by snapsho
 - **SnapshotLoader.cs**: Reads the snapshot; gives a fresh copy for every recheck
 - **WhatIfTool.cs**: `whatIf`: the official answer and the answer with a temporary change, side by side
 - **SearchResponseTool.cs**: `searchResponse`: finds text in the response document, with slide or section
-- **CheckWorkstreamsTool.cs**: `checkWorkstreams`: matches the agent's workstream list; gives Q3's answer
+- **CheckWorkstreamsTool.cs**: `checkWorkstreams`: matches the agent's workstream list, leaving out `notSapWorkstreams` names and ignored sections, checks each quote is in the document; gives Q3's answer
 - **CheckReadingTool.cs**: `checkReading`: which sheet, columns and rows each number came from
 
 ---

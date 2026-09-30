@@ -80,6 +80,14 @@ namespace DealReview
             return WordRegex(word).IsMatch(text);
         }
 
+        /// <summary>Where the first whole-word match starts, or -1.</summary>
+        public static int FindWord(string text, string word)
+        {
+            if (string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(word)) return -1;
+            var m = WordRegex(word).Match(text);
+            return m.Success ? m.Index : -1;
+        }
+
         public static int CountWord(string text, string word)
         {
             if (string.IsNullOrWhiteSpace(text) || string.IsNullOrWhiteSpace(word)) return 0;

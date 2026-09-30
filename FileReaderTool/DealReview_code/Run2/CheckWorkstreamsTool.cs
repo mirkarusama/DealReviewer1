@@ -52,6 +52,8 @@ namespace DealReview
             var missing = new List<string>();
             var checkedWs = new List<string>();     // SAP workstreams checked, for the Note
             var byTeamName = new List<string>();    // names outside the SAP list, matched to a team by name
+            var leftOut = new List<object>();       // names code leaves out: not SAP workstreams, or quoted from an ignored section
+            var blocks = ctx.ResponseBlocks ?? new List<DocBlock>();
 
             if (req.CouldNotRead)
                 q.Unclear("The agent couldn't read the promised workstreams from the response document" + (string.IsNullOrWhiteSpace(req.Source) ? "." : $" ({req.Source})."));
@@ -64,6 +66,24 @@ namespace DealReview
             {
                 string name = Squash(p.Name ?? "");
                 if (name.Length == 0 || !seen.Add(Text.Norm(name))) continue;
+
+                // Where the quote really is. The document's own location beats the agent's, so the section check can't drift.
+                var found = FindQuote(blocks, p.Quote);
+                string where = found?.Location ?? p.Location ?? "";
+                string ignored = rules.IgnoredSection(where);
+                string notSap = rules.NotSapWorkstream(name);
+                if (ignored != null || notSap != null)
+                {
+                    string why = ignored != null
+                        ? $"quoted from section '{Rules.SectionOf(where)}', which doesn't say what this deal includes (workstreamIgnoreSections: {ignored})"
+                        : $"not an SAP workstream (notSapWorkstreams: {notSap})";
+                    leftOut.Add(new { name, location = where, reason = why });
+                    q.Trail.Add($"Step 7: '{name}' left out: {why}.");
+                    continue;
+                }
+                if (!string.IsNullOrWhiteSpace(p.Quote) && blocks.Count > 0 && found == null)
+                    q.Flags.Add($"'{name}': the quote wasn't found in the response document, so a reviewer should check it (\"{Squash(p.Quote)}\").");
+
                 var ws = rules.SapWorkstreams(name);
                 string status;
                 List<string> staffedBy = null;
@@ -104,28 +124,44 @@ namespace DealReview
                 }
                 if (string.IsNullOrWhiteSpace(p.Location) || string.IsNullOrWhiteSpace(p.Quote))
                     q.Flags.Add($"'{name}' was given without {(string.IsNullOrWhiteSpace(p.Location) ? "a location" : "a quote")}, so a reviewer can't easily find it.");
-                items.Add(new { name, location = p.Location, quote = p.Quote, sapWorkstreams = ws, status, staffedBy });
+                items.Add(new { name, location = where, quote = p.Quote, quoteFound = blocks.Count > 0 ? found != null : (bool?)null, sapWorkstreams = ws, status, staffedBy });
                 q.Trail.Add($"Step 7: '{name}'{(string.IsNullOrWhiteSpace(p.Location) ? "" : " (" + p.Location + ")")} → {(ws.Count > 0 ? string.Join("/", ws) : "not in the SAP list")} → {status}{(staffedBy != null ? ": " + string.Join(", ", staffedBy) : "")}.");
             }
 
             q.DecidedBy = "code, after checkWorkstreams";
             q.AgentTask = null;
-            string covered = string.Join(", ", checkedWs.Distinct());
-            string byTeam = string.Join(", ", byTeamName.Select(n => $"'{n}'"));
+            // The Note names SAP workstreams in settings order, never how many names the agent sent or in what order,
+            // so two runs that find the same workstreams write the same Note.
+            if (!req.CouldNotRead && req.Promised.Count > 0 && items.Count == 0)
+                q.Unclear("Every name given was left out (see the trail), so step 7 couldn't be checked.");
+            missing.Sort(StringComparer.Ordinal);
+            string covered = string.Join(", ", rules.InSapOrder(checkedWs));
+            string byTeam = string.Join(", ", byTeamName.OrderBy(n => n, StringComparer.OrdinalIgnoreCase).Select(n => $"'{n}'"));
             string step7 = req.CouldNotRead ? "Step 7: the response document couldn't be read."
                          : items.Count == 0 ? "Step 7: no promised workstreams were given."
-                         : $"Step 7: checked {items.Count} workstream name(s) from the response" +
-                           (covered.Length > 0 ? $", covering {covered}" : "") +
-                           (byTeam.Length > 0 ? (covered.Length > 0 ? $", plus {byTeam} by team name" : $", covering {byTeam} by team name") : "") +
+                         : "Step 7: the response's workstreams" +
+                           (covered.Length > 0 ? $" cover {covered}" : "") +
+                           (byTeam.Length > 0 ? (covered.Length > 0 ? $", plus {byTeam} by team name" : $" cover {byTeam} by team name") : "") +
                            "; " + (missing.Count > 0 ? $"not staffed: {string.Join(", ", missing)}." : "none is missing from the pricing model.") +
                            (unmatched > 0 ? $" {unmatched} couldn't be matched." : "");
             q.Body = q.Body + " " + step7;
             q.Decide(q.PassedSoFar && missing.Count == 0);
             q.Values["promisedWorkstreams"] = items;
             q.Values["missingWorkstreams"] = missing;
-            q.Values["checkedWorkstreams"] = checkedWs.Distinct().ToList();
+            q.Values["checkedWorkstreams"] = rules.InSapOrder(checkedWs);
+            q.Values["leftOutWorkstreams"] = leftOut;
             return new { ok = true, action = "checkWorkstreams", snapshotId = source.SnapshotId, question = q };
         }
+
+        /// <summary>The block the quote comes from, ignoring case, spaces and punctuation, or null.</summary>
+        private static DocBlock FindQuote(List<DocBlock> blocks, string quote)
+        {
+            string key = Letters(quote);
+            if (key.Length == 0) return null;
+            return blocks.FirstOrDefault(b => (" " + Letters(b.Text) + " ").Contains(" " + key + " "));
+        }
+
+        private static string Letters(string s) => Regex.Replace(Text.Norm(s ?? ""), @"[^\p{L}\p{N}]+", " ").Trim();
 
         /// <summary>"A", "A and B", "A, B and C".</summary>
         private static string JoinAnd(IEnumerable<string> items)

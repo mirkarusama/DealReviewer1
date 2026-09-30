@@ -46,6 +46,8 @@ namespace DealReview
         public List<KeywordRule> RoleKeywordRules { get; set; } = new List<KeywordRule>();
 
         public Dictionary<string, List<string>> SapWorkstreams { get; set; } = new Dictionary<string, List<string>>();
+        public List<string> NotSapWorkstreams { get; set; } = new List<string>();          // Q3 step 7: names left out, e.g. PMO, OCM, Testing
+        public List<string> WorkstreamIgnoreSections { get; set; } = new List<string>();   // Q3 step 7: sections that don't say what the deal includes
 
         public ClassifierRules Classifier { get; set; } = new ClassifierRules();
 
@@ -86,6 +88,10 @@ namespace DealReview
             foreach (var rule in RoleKeywordRules)
                 if (!NextGenTeamMapping.ContainsKey(rule.Group ?? ""))
                     throw new InvalidDataException($"DealSettings: roleKeywordRules group '{rule.Group}' isn't a group in nextGenTeamMapping (names must match exactly, including capitals).");
+            var rules = new Rules(this);
+            foreach (var name in NotSapWorkstreams)
+                if (rules.SapWorkstreams(name).Count > 0)
+                    throw new InvalidDataException($"DealSettings: notSapWorkstreams '{name}' is also an SAP workstream ({string.Join(", ", rules.SapWorkstreams(name))}). Remove it from one of the two lists.");
         }
     }
 
