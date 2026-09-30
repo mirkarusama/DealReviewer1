@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "action": "review",
+  "schemaVersion": "2.1",
+  "filesPresent": false,
+  "fileIssues": [
+    "Missing: pricing model (.xlsm with 'Engagement Metrics' and 'Resourcing' sheets)."
+  ],
+  "files": [
+    {
+      "fileName": "Project_2_Nextgen.xlsm",
+      "type": "NextGen",
+      "reason": "'Raw Data' sheet has columns Resource Group, SourceGroupType, Effort",
+      "lastSaved": "2026-09-30 08:51:19",
+      "sizeBytes": 165314
+    },
+    {
+      "fileName": "Project_2_RFP_S4HANA_System_Integration.docx",
+      "type": "RFP",
+      "reason": "client request: 'Deloitte' 0x, 'Request for Proposal' 0x, 'RFP' 43x",
+      "lastSaved": "2026-09-30 08:51:20",
+      "sizeBytes": 20388858
+    },
+    {
+      "fileName": "Project_2_S4_Transformation_Staffing.xlsx",
+      "type": "Other",
+      "reason": "spreadsheet without pricing model or NextGen sheets (Timeline, Sheet1, Pivot, Staffing, Schedule, Rate Card)",
+      "lastSaved": "2026-09-30 08:51:20",
+      "sizeBytes": 396179
+    },
+    {
+      "fileName": "Project_2_SA_Readout_Report.pptx",
+      "type": "Other",
+      "reason": "SA readout report (reviewer output, never sent to the agent)",
+      "lastSaved": "2026-09-30 08:51:20",
+      "sizeBytes": 65615
+    }
+  ],
+  "answerValues": "Yes | No | Needs review. A definite fail is No; a part that couldn't be checked makes it Needs review; a reading problem makes it Needs review even if it would fail.",
+  "questions": []
+}

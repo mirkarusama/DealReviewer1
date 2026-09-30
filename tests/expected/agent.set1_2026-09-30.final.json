@@ -1,0 +1,55 @@
+{
+  "table1": [
+    {
+      "Question": "Is US/USI mix percentage acceptable",
+      "Answer": "Needs review",
+      "Note": "Needs review. USI is 72.43% (59,147 of 81,658 hrs) and US+RoW is 27.57%. USI must be 70–80% and US+RoW 20–30% of total hours. Needs review because: Geography 'Singapore' (2 row(s), 3,240 hrs) is on neither the USI list nor the non-USI list; it was counted as US+RoW."
+    },
+    {
+      "Question": "Is the bulge ratio proposed acceptable",
+      "Answer": "No",
+      "Note": "No. USI bulge is 1.10 (30,959 junior ÷ 28,188 senior hrs) and non-USI is 0.19 (2,960 ÷ 15,951); both must be 1.90–2.10."
+    },
+    {
+      "Question": "Are different project streams adequately staffed",
+      "Answer": "No",
+      "Note": "No. Step 6 fail: NextGen Functional hours are 76.08% of the pricing model's (24,097.9 ÷ 31,675); at least 95% is needed. Step 7 (workstreams) was skipped because there is no response document. Not fully checked (the fail stands anyway): Step 7 couldn't run: there is no response document in the folder."
+    },
+    {
+      "Question": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
+      "Answer": "No",
+      "Note": "No. Overall NextGen is 89.27% of pricing hours (72,894 ÷ 81,658; needs 95%). Groups below 95%: Functional 76.08% (gap 18.92 points), Development 92.48% (gap 2.52 points), Data 34.74% (gap 60.26 points), Deployment 48.86% (gap 46.14 points)."
+    },
+    {
+      "Question": "Are EFA and PPMD hrs accounted ?",
+      "Answer": "No",
+      "Note": "No. EFA: EFA hours per period in FY27 P5–FY27 P8: 8, 8, 8, 8; 8, 8, 8, 8 (needs 5.00–10.00 each) → pass. MD hours are 0.52% of total (422 ÷ 81,658) (needs 0.30–0.50%) → fail."
+    },
+    {
+      "Question": "Does the staffing have enough lead FTE roles",
+      "Answer": "No",
+      "Note": "No. SC + M = 24 of 56 practitioners (42.86%); the rule needs 14 (25% of 56 = 14), so 10 more than needed."
+    }
+  ],
+  "table2": [
+    {
+      "Question": "Is US/USI mix percentage acceptable",
+      "Answer": "Needs review",
+      "Note": "Needs review. USI is 72.43% (59,147 of 81,658 hrs) and US+RoW is 27.57%. USI must be 70–80% and US+RoW 20–30% of total hours. Needs review because: Geography 'Singapore' (2 row(s), 3,240 hrs) is on neither the USI list nor the non-USI list; it was counted as US+RoW.",
+      "Issues": "- Geography 'Singapore' (2 row(s), 3,240 hrs) is on neither the USI list nor the non-USI list; it was counted as US+RoW.\n- 1 row(s) with hours but no Geography (360 hrs) were counted as US+RoW: row 82: (no title, team or role).\n- Adding \"Singapore\" to usiGeographies gives Yes: USI is 76.40% (62,387 of 81,658 hrs) and US+RoW is 23.60%.\n- Adding \"Singapore\" to nonUsiGeographies gives Yes: USI is 72.43% (59,147 of 81,658 hrs) and US+RoW is 27.57%.\n- Suggested settings change: add \"Singapore\" to usiGeographies or to nonUsiGeographies"
+    },
+    {
+      "Question": "Are different project streams adequately staffed",
+      "Answer": "No",
+      "Note": "No. Step 6 fail: NextGen Functional hours are 76.08% of the pricing model's (24,097.9 ÷ 31,675); at least 95% is needed. Step 7 (workstreams) was skipped because there is no response document. Not fully checked (the fail stands anyway): Step 7 couldn't run: there is no response document in the folder.",
+      "Issues": "- Step 7 couldn't run: there is no response document in the folder."
+    },
+    {
+      "Question": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
+      "Answer": "No",
+      "Note": "No. Overall NextGen is 89.27% of pricing hours (72,894 ÷ 81,658; needs 95%). Groups below 95%: Functional 76.08% (gap 18.92 points), Development 92.48% (gap 2.52 points), Data 34.74% (gap 60.26 points), Deployment 48.86% (gap 46.14 points).",
+      "Issues": "- 5 pricing row(s) (3,824 hrs) match no NextGen group, so they count in the overall total only: (no team or role) 2,160; JAPAN 1,440; EFA 224.\n- Suggested settings change: add \"JAPAN\" under its group in nextGenTeamMapping, or leave it if the team has no NextGen group"
+    }
+  ],
+  "corrections": []
+}

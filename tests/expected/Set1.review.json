@@ -1,0 +1,341 @@
+{
+  "ok": true,
+  "action": "review",
+  "schemaVersion": "2.1",
+  "filesPresent": true,
+  "fileIssues": [],
+  "files": [
+    {
+      "fileName": "Project_1_ERP_Request_for_Proposal.docx",
+      "type": "RFP",
+      "reason": "client request: 'Deloitte' 0x, 'Request for Proposal' 5x, 'RFP' 36x",
+      "lastSaved": "2026-09-30 08:51:19",
+      "sizeBytes": 172209
+    },
+    {
+      "fileName": "Project_1_Nextgen.xlsm",
+      "type": "NextGen",
+      "reason": "'Raw Data' sheet has columns Resource Group, SourceGroupType, Effort",
+      "lastSaved": "2026-09-30 08:51:19",
+      "sizeBytes": 142889
+    },
+    {
+      "fileName": "Project_1_Offering_Portfolio_Engagement_Model.xlsm",
+      "type": "PricingModel",
+      "reason": "has sheets 'Engagement Metrics' + 'Resourcing'",
+      "lastSaved": "2026-09-30 08:51:19",
+      "sizeBytes": 9571820
+    },
+    {
+      "fileName": "Project_1_SA_Readout_Report.pptx",
+      "type": "Other",
+      "reason": "SA readout report (reviewer output, never sent to the agent)",
+      "lastSaved": "2026-09-30 08:51:19",
+      "sizeBytes": 46713
+    }
+  ],
+  "answerValues": "Yes | No | Needs review. A definite fail is No; a part that couldn't be checked makes it Needs review; a reading problem makes it Needs review even if it would fail.",
+  "pricingModel": {
+    "file": "Project_1_Offering_Portfolio_Engagement_Model.xlsm",
+    "sheet": "Resourcing",
+    "layout": "new",
+    "headerRow": 16,
+    "columns": {
+      "cohort": "D",
+      "business": "G",
+      "geography": "J",
+      "title": "M",
+      "jobLevel": "S",
+      "workTeam": "N",
+      "role": "O",
+      "totalHours": "RE"
+    },
+    "rowsRead": 62,
+    "totalHours": 81658,
+    "sheetOwnTotal": 81658,
+    "periodColumns": 195,
+    "notes": []
+  },
+  "nextGen": {
+    "file": "Project_1_Nextgen.xlsm",
+    "rowsRead": 132,
+    "hoursBySourceGroupType": {
+      "D": 72894.02,
+      "C": 53107.24
+    },
+    "deloitteHoursByGroup": {
+      "Functional": 24097.9,
+      "Development": 14315.95,
+      "Testing": 9513.19,
+      "Change Management": 6460.73,
+      "Project Management": 6419.55,
+      "Security & Controls": 4825.71,
+      "Infrastructure": 3038.81,
+      "Data": 1969.99,
+      "Deployment": 1604.89,
+      "Service Delivery": 647.3
+    },
+    "notes": []
+  },
+  "questions": [
+    {
+      "no": 1,
+      "question": "Is US/USI mix percentage acceptable",
+      "answer": "Needs review",
+      "decidedBy": "code",
+      "rule": "USI must be 70–80% and US+RoW 20–30% of total hours.",
+      "summary": "Needs review. USI is 72.43% (59,147 of 81,658 hrs) and US+RoW is 27.57%. USI must be 70–80% and US+RoW 20–30% of total hours. Needs review because: Geography 'Singapore' (2 row(s), 3,240 hrs) is on neither the USI list nor the non-USI list; it was counted as US+RoW.",
+      "reviewReasons": [
+        "Geography 'Singapore' (2 row(s), 3,240 hrs) is on neither the USI list nor the non-USI list; it was counted as US+RoW."
+      ],
+      "values": {
+        "usiHours": 59147,
+        "usPlusRowHours": 22511,
+        "totalHours": 81658,
+        "usiPct": 72.43,
+        "usPlusRowPct": 27.57
+      },
+      "trail": [
+        "Hours come from Resourcing > Total Engagement (column RE): 59 rows with hours, 81,658 hrs in total.",
+        "Split by Geography (column J): 'India' counts as USI, everything else as US+RoW (same as the old workflow).",
+        "Hours by Geography: India 59,147, US 17,831, Singapore 3,240, Mexico 1,080, (blank) 360.",
+        "USI 59,147 ÷ 81,658 = 72.43% (pass); US+RoW 22,511 ÷ 81,658 = 27.57% (pass)."
+      ],
+      "flags": [
+        "1 row(s) with hours but no Geography (360 hrs) were counted as US+RoW: row 82: (no title, team or role)."
+      ],
+      "settingsHints": [
+        {
+          "issue": "Geography 'Singapore' is on neither list",
+          "change": "add \"Singapore\" to usiGeographies or to nonUsiGeographies"
+        }
+      ]
+    },
+    {
+      "no": 2,
+      "question": "Is the bulge ratio proposed acceptable",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "USI and non-USI bulge ratios (junior hours ÷ senior hours) must both be 1.90–2.10, compared at 2 decimals.",
+      "summary": "No. USI bulge is 1.10 (30,959 junior ÷ 28,188 senior hrs) and non-USI is 0.19 (2,960 ÷ 15,951); both must be 1.90–2.10.",
+      "reviewReasons": [],
+      "values": {
+        "usiBulge": 1.1,
+        "nonUsiBulge": 0.19,
+        "usiJuniorHours": 30959,
+        "usiSeniorHours": 28188,
+        "nonUsiJuniorHours": 2960,
+        "nonUsiSeniorHours": 15951
+      },
+      "trail": [
+        "Junior = codes L25/L35 or titles Associate Analyst, Analyst, Consultant; senior = codes L40/L45/L55/L65/LPP/LL or titles Sr Consultant, Manager, Sr Manager, Managing Director, Partner, Principal. Whole values only, so 'Senior Consultant' is never read as 'Consultant'.",
+        "USI = Geography India; everything else is non-USI.",
+        "row 94: L55 - Manager, OCM: Job Level '#REF!' unreadable, used the Title instead → Senior.",
+        "EFA row 117: L35 - Services Specialist, EFA counted as junior (112 hrs), as the old workflow did.",
+        "EFA row 118: L25 - Services Associate, EFA counted as junior (112 hrs), as the old workflow did.",
+        "USI: 30,959 junior ÷ 28,188 senior = 1.10 (fail).",
+        "Non-USI: 2,960 junior ÷ 15,951 senior = 0.19 (fail).",
+        "Left out, no title (3 rows, 3,600 hrs): row 82 360 hrs; row 110 1,440 hrs (Other Member Firm, Singapore); row 111 1,800 hrs (Other Member Firm, Singapore)."
+      ],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 3,
+      "question": "Are different project streams adequately staffed",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "Step 6: NextGen Functional hours (Deloitte only) must be at least 95% of the pricing model's Functional hours. Step 7: every workstream the response document promises must be staffed in the pricing model. Yes only if both pass.",
+      "summary": "No. Step 6 fail: NextGen Functional hours are 76.08% of the pricing model's (24,097.9 ÷ 31,675); at least 95% is needed. Step 7 (workstreams) was skipped because there is no response document. Not fully checked (the fail stands anyway): Step 7 couldn't run: there is no response document in the folder.",
+      "reviewReasons": [
+        "Step 7 couldn't run: there is no response document in the folder."
+      ],
+      "values": {
+        "nextGenFunctionalHours": 24097.9,
+        "pricingFunctionalHours": 31675,
+        "functionalPct": 76.08,
+        "step6Passed": false
+      },
+      "trail": [
+        "NextGen: Raw Data, Resource Group 'Functional', SourceGroupType = D → 24,097.9 hrs.",
+        "Pricing model Functional hours: 31,675 hrs from PROCUREMENT & ARIBA 8,045, FINANCE 6,110, OTC 6,020, EWM 5,840, SCM / MANUFACTURING 5,660.",
+        "Step 6: 24,097.9 ÷ 31,675 = 76.08% (fail; needs at least 95%)."
+      ],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 4,
+      "question": "Are delivery pools and competency pools leveraged",
+      "answer": null,
+      "decidedBy": "on hold",
+      "summary": "On hold; not answered.",
+      "reviewReasons": [],
+      "values": {},
+      "trail": [],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 5,
+      "question": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "NextGen hours (Deloitte only) must be at least 95% of pricing model hours, overall and for each NextGen resource group.",
+      "summary": "No. Overall NextGen is 89.27% of pricing hours (72,894 ÷ 81,658; needs 95%). Groups below 95%: Functional 76.08% (gap 18.92 points), Development 92.48% (gap 2.52 points), Data 34.74% (gap 60.26 points), Deployment 48.86% (gap 46.14 points).",
+      "reviewReasons": [],
+      "values": {
+        "overallPct": 89.27,
+        "nextGenHours": 72894.02,
+        "pricingHours": 81658,
+        "groups": [
+          {
+            "group": "Functional",
+            "nextGenHours": 24097.9,
+            "pricingHours": 31675,
+            "pct": 76.08,
+            "passed": false
+          },
+          {
+            "group": "Development",
+            "nextGenHours": 14315.95,
+            "pricingHours": 15480,
+            "pct": 92.48,
+            "passed": false
+          },
+          {
+            "group": "Testing",
+            "nextGenHours": 9513.19,
+            "pricingHours": 3331,
+            "pct": 285.6,
+            "passed": true
+          },
+          {
+            "group": "Project Management",
+            "nextGenHours": 7066.85,
+            "pricingHours": 6175,
+            "pct": 114.44,
+            "passed": true
+          },
+          {
+            "group": "Change Management",
+            "nextGenHours": 6460.73,
+            "pricingHours": 5970,
+            "pct": 108.22,
+            "passed": true
+          },
+          {
+            "group": "Security",
+            "nextGenHours": 4825.71,
+            "pricingHours": 4538,
+            "pct": 106.34,
+            "passed": true
+          },
+          {
+            "group": "Infrastructure",
+            "nextGenHours": 3038.81,
+            "pricingHours": 1710,
+            "pct": 177.71,
+            "passed": true
+          },
+          {
+            "group": "Data",
+            "nextGenHours": 1969.99,
+            "pricingHours": 5670,
+            "pct": 34.74,
+            "passed": false
+          },
+          {
+            "group": "Deployment",
+            "nextGenHours": 1604.89,
+            "pricingHours": 3285,
+            "pct": 48.86,
+            "passed": false
+          }
+        ]
+      },
+      "trail": [
+        "Overall: NextGen 72,894 ÷ pricing 81,658 = 89.27% (fail).",
+        "Functional: NextGen 24,097.9 ÷ pricing 31,675 = 76.08% (fail).",
+        "Development: NextGen 14,316 ÷ pricing 15,480 = 92.48% (fail).",
+        "Testing: NextGen 9,513.2 ÷ pricing 3,331 = 285.60% (pass).",
+        "Project Management: NextGen 7,066.9 ÷ pricing 6,175 = 114.44% (pass).",
+        "Change Management: NextGen 6,460.7 ÷ pricing 5,970 = 108.22% (pass).",
+        "Security: NextGen 4,825.7 ÷ pricing 4,538 = 106.34% (pass).",
+        "Infrastructure: NextGen 3,038.8 ÷ pricing 1,710 = 177.71% (pass).",
+        "Data: NextGen 1,970 ÷ pricing 5,670 = 34.74% (fail).",
+        "Deployment: NextGen 1,604.9 ÷ pricing 3,285 = 48.86% (fail)."
+      ],
+      "flags": [
+        "5 pricing row(s) (3,824 hrs) match no NextGen group, so they count in the overall total only: (no team or role) 2,160; JAPAN 1,440; EFA 224."
+      ],
+      "settingsHints": [
+        {
+          "issue": "Pricing team 'JAPAN' (1,440 hrs) matches no NextGen group",
+          "change": "add \"JAPAN\" under its group in nextGenTeamMapping, or leave it if the team has no NextGen group"
+        }
+      ]
+    },
+    {
+      "no": 6,
+      "question": "Are EFA and PPMD hrs accounted ?",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "Each EFA row needs 5.00–10.00 hrs in each of the first 4 periods after EFA hours start, and Managing Director hours must be 0.30–0.50% of total hours. Both must pass.",
+      "summary": "No. EFA: EFA hours per period in FY27 P5–FY27 P8: 8, 8, 8, 8; 8, 8, 8, 8 (needs 5.00–10.00 each) → pass. MD hours are 0.52% of total (422 ÷ 81,658) (needs 0.30–0.50%) → fail.",
+      "reviewReasons": [],
+      "values": {
+        "efaRows": 2,
+        "efaPassed": true,
+        "mdHours": 422,
+        "mdPct": 0.52,
+        "mdPassed": false
+      },
+      "trail": [
+        "EFA rows found by 'EFA' / 'Engagement Financial Advisor' in cohort, team, role or title: 2. Periods checked: FY27 P5–FY27 P8.",
+        "row 117: L35 - Services Specialist, EFA: 8, 8, 8, 8 (pass)",
+        "row 118: L25 - Services Associate, EFA: 8, 8, 8, 8 (pass)",
+        "Managing Director rows: 3 (row 17 304 hrs; row 21 100 hrs; row 105 18 hrs); 422 ÷ 81,658 = 0.52% (fail).",
+        "Partner/Principal (LPP) hours not counted, as agreed (MD only): 5 hrs."
+      ],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 7,
+      "question": "Are the rampups and ramp downs inline with project phases",
+      "answer": null,
+      "decidedBy": "on hold",
+      "summary": "On hold; not answered.",
+      "reviewReasons": [],
+      "values": {},
+      "trail": [],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 8,
+      "question": "Does the staffing have enough lead FTE roles",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "SC + M rows must be 25% of practitioner rows, rounded to the nearest whole person (exactly half-way accepts both).",
+      "summary": "No. SC + M = 24 of 56 practitioners (42.86%); the rule needs 14 (25% of 56 = 14), so 10 more than needed.",
+      "reviewReasons": [],
+      "values": {
+        "practitioners": 56,
+        "leads": 24,
+        "leadPct": 42.86,
+        "leadsNeeded": [
+          14
+        ]
+      },
+      "trail": [
+        "Practitioners = rows with a title and hours: 56 (EFA rows included, rows with no title left out, as the old workflow did).",
+        "Leads = codes L45/L55 or titles Sr Consultant, Manager (Senior Managers not counted): 24 rows (L45 x15, L55 x9).",
+        "25% of 56 = 14 people, so 14 lead(s) pass; found 24 = 42.86% (fail)."
+      ],
+      "flags": [],
+      "settingsHints": []
+    }
+  ]
+}

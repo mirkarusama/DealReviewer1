@@ -1,0 +1,22 @@
+{
+  "ok": true,
+  "error": null,
+  "answer": "Yes",
+  "summary": "Yes. Step 6 pass: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 70% is needed. Step 7: checked 5 workstream name(s) from the response, covering EAM, Development, Data, Security; none is missing from the pricing model.",
+  "reviewReasons": [],
+  "flags": [
+    "Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management)."
+  ],
+  "settingsHints": [],
+  "trail": [
+    "NextGen: Raw Data, Resource Group 'Functional', SourceGroupType = D → 12,977 hrs.",
+    "Pricing model Functional hours: 16,579 hrs from SAP EAM Functional Team Member 4,095, SAP EAM USI Functional Lead 3,375, SAP EAM Functional Team Member (Capital Integration Focussed) 3,375, EAM Functional Analyst Onsite  (+PMO) 2,640, PMO + Functional EAM Lead 2,134, Functional EAM Blueprint Support Con 960.",
+    "7 row(s) had no known Work Team and were placed by role name: PMO + Functional EAM Lead → Functional; SAP EAM USI Functional Lead → Functional; SAP EAM Functional Team Member → Functional; Functional EAM Blueprint Support Con → Functional; SAP EAM Functional Team Member (Capital Integration Focussed) → Functional; EAM Functional Analyst Onsite  (+PMO) → Functional.",
+    "Step 6: 12,977 ÷ 16,579 = 78.27% (pass; needs at least 70%).",
+    "Step 7: 'SAP PM' (Section 'Implementation Methodology & Delivery Framework') → EAM → staffed: SAP EAM Functional Team Member (4,095 hrs), SAP EAM USI Functional Lead (3,375 hrs), SAP EAM Functional Team Member (Capital Integration Focussed) (3,375 hrs), EAM Functional Analyst Onsite  (+PMO) (2,640 hrs), PMO + Functional EAM Lead (2,134 hrs), Integration and Cutover Lead (with EAM Skillset) (1,680 hrs), Functional EAM Blueprint Support Con (960 hrs).",
+    "Step 7: 'Integration' (Section 'Tailored Methodology') → Development → staffed: Technical - ABAP/UI5 (8,460 hrs), Technical - BTP CPI (5,850 hrs), SAP EAM Functional Team Member (Capital Integration Focussed) (3,375 hrs), Integration and Cutover Lead (with EAM Skillset) (1,680 hrs), Integration & Cutover Team Mmber (1,400 hrs).",
+    "Step 7: 'Data Conversion' (Section 'Tailored Methodology') → Data → staffed: Technical Data Team Member (5,400 hrs), Data Lead Offshore- Techno/Functional (2,835 hrs), Data Reporting Onsite Lead (1,160 hrs).",
+    "Step 7: 'Security' (Table 17, section 'Risks & Assumptions') → Security → staffed: Security Team Member (4,635 hrs), Controls Lead (2,340 hrs), Security Design Lead (640 hrs).",
+    "Step 7: 'Controls' (Section 'Tailored Methodology') → Security → staffed: Security Team Member (4,635 hrs), Controls Lead (2,340 hrs), Security Design Lead (640 hrs)."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "table1": [
+    {
+      "Question": "Is US/USI mix percentage acceptable",
+      "Answer": "Yes",
+      "Note": "Yes. USI is 77.26% (55,652 of 72,028.5 hrs) and US+RoW is 22.74%. USI must be 70–80% and US+RoW 20–30% of total hours."
+    },
+    {
+      "Question": "Is the bulge ratio proposed acceptable",
+      "Answer": "No",
+      "Note": "No. USI bulge is 0.88 (26,055 junior ÷ 29,597 senior hrs) and non-USI is 0.44 (5,000 ÷ 11,376.5); both must be 1.90–2.10."
+    },
+    {
+      "Question": "Are different project streams adequately staffed",
+      "Answer": "Needs review",
+      "Note": "Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7 waits for the agent: call checkWorkstreams to get Q3's answer."
+    },
+    {
+      "Question": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
+      "Answer": "No",
+      "Note": "No. Overall NextGen is 90.62% of pricing hours (65,272.5 ÷ 72,028.5; needs 95%). Groups below 95%: Development 91.71% (gap 3.29 points), Functional 78.27% (gap 16.73 points), Change Management 94.51% (gap 0.49 points), Security 49.20% (gap 45.80 points), Data 20.96% (gap 74.04 points), Deployment 62.35% (gap 32.65 points). Not fully checked (the fail stands anyway): No staffed hours for 'Testing' in the pricing model, while NextGen estimates 9,731.9 hrs."
+    },
+    {
+      "Question": "Are EFA and PPMD hrs accounted ?",
+      "Answer": "No",
+      "Note": "No. EFA: EFA hours per period in FY27 P3–FY27 P6: 12, 16, 16, 16 (needs 5.00–10.00 each) → fail. MD hours are 0.39% of total (281 ÷ 72,028.5) (needs 0.30–0.50%) → pass."
+    },
+    {
+      "Question": "Does the staffing have enough lead FTE roles",
+      "Answer": "No",
+      "Note": "No. SC + M = 18 of 45 practitioners (40.00%); the rule needs 11 (25% of 45 = 11.25), so 7 more than needed."
+    }
+  ],
+  "table2": [
+    {
+      "Question": "Are different project streams adequately staffed",
+      "Answer": "Needs review",
+      "Note": "Step 6 fail: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 95% is needed. Step 7 waits for the agent: call checkWorkstreams to get Q3's answer.",
+      "Issues": "- Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management)."
+    },
+    {
+      "Question": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
+      "Answer": "No",
+      "Note": "No. Overall NextGen is 90.62% of pricing hours (65,272.5 ÷ 72,028.5; needs 95%). Groups below 95%: Development 91.71% (gap 3.29 points), Functional 78.27% (gap 16.73 points), Change Management 94.51% (gap 0.49 points), Security 49.20% (gap 45.80 points), Data 20.96% (gap 74.04 points), Deployment 62.35% (gap 32.65 points). Not fully checked (the fail stands anyway): No staffed hours for 'Testing' in the pricing model, while NextGen estimates 9,731.9 hrs.",
+      "Issues": "- No staffed hours for 'Testing' in the pricing model, while NextGen estimates 9,731.9 hrs.\n- 2 pricing row(s) (524 hrs) match no NextGen group, so they count in the overall total only: Manager Contingency Hours 220; EFA 304.\n- Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'Global Delivery Manager - Functional and Technical' → Project Management (also Development, Functional); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management); 'Data Lead Offshore- Techno/Functional' → Data (also Functional); 'Technical Data Team Member' → Data (also Development); 'Integration and Cutover Lead (with EAM Skillset)' → Deployment (also Functional).\n- Suggested settings change: add a keyword from \"Manager Contingency Hours\" to roleKeywordRules under its NextGen group, or leave it if the role has no NextGen group"
+    }
+  ],
+  "corrections": [
+    "Q1: missing from the agent's table1; added from the code.",
+    "Q2: missing from the agent's table1; added from the code.",
+    "Q3: the agent didn't return its checkWorkstreams request, so its Q3 text was kept.",
+    "Q3: neither the agent nor the code gave an answer, so it's Needs review.",
+    "Q3: missing from the agent's table2; added with the code's flags and hints.",
+    "Q5: missing from the agent's table1; added from the code.",
+    "Q5: missing from the agent's table2; added with the code's flags and hints.",
+    "Q6: missing from the agent's table1; added from the code.",
+    "Q8: missing from the agent's table1; added from the code."
+  ]
+}

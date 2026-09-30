@@ -1,0 +1,380 @@
+{
+  "// about": "Regression cases for tests/run.sh. Paths are relative to the repo root.",
+  "settings": "FileReaderTool/DealReview_code/DealSettings.json",
+  "sets": [
+    {
+      "name": "Set1",
+      "folder": "Set1"
+    },
+    {
+      "name": "Set2",
+      "folder": "Set2"
+    },
+    {
+      "name": "Set3",
+      "folder": "Set3"
+    },
+    {
+      "name": "Set3-step6-pass",
+      "folder": "Set3",
+      "thresholds": {
+        "nextGenMinPct": 70
+      },
+      "// why": "Every sample deal fails Q3 step 6, which hides step 7. This copy lowers the step 6 limit so step 7 decides Q3."
+    }
+  ],
+  "q3": [
+    {
+      "name": "Set3.agent-earlier",
+      "set": "Set3",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM Implementation",
+            "location": "Section 'the program Program — SAP PM Implementation'",
+            "quote": "the program Program — SAP PM Implementation"
+          },
+          {
+            "name": "Development & Integration",
+            "location": "Section 'Development & Integration Methodology'",
+            "quote": "Development & Integration Methodology"
+          },
+          {
+            "name": "Data conversion",
+            "location": "Section 'Data conversion methodology'",
+            "quote": "Deloitte recommends a phased data conversion approach"
+          },
+          {
+            "name": "integrated security workstream",
+            "location": "Section 'Security Design'",
+            "quote": "Our integrated security workstream will adopt a scalable risk-based approach"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3.agent-today",
+      "set": "Set3",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'Implementation Methodology & Delivery Framework'",
+            "quote": "Deloitte will deliver the Project 3 the program SAP PM program"
+          },
+          {
+            "name": "Integration",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Security",
+            "location": "Table 17, section 'Risks & Assumptions'",
+            "quote": "Deloitte will create up to 50 new master security roles"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3.plain-names",
+      "set": "Set3",
+      "request": {
+        "promised": [
+          {
+            "name": "Plant Maintenance",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Integrations",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Controls",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3.today-plus-ocm-testing",
+      "set": "Set3",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'Implementation Methodology & Delivery Framework'",
+            "quote": "Deloitte will deliver the Project 3 the program SAP PM program"
+          },
+          {
+            "name": "Integration",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Security",
+            "location": "Table 17, section 'Risks & Assumptions'",
+            "quote": "Deloitte will create up to 50 new master security roles"
+          },
+          {
+            "name": "OCM",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Testing",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3.today-plus-controls",
+      "set": "Set3",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'Implementation Methodology & Delivery Framework'",
+            "quote": "Deloitte will deliver the Project 3 the program SAP PM program"
+          },
+          {
+            "name": "Integration",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Security",
+            "location": "Table 17, section 'Risks & Assumptions'",
+            "quote": "Deloitte will create up to 50 new master security roles"
+          },
+          {
+            "name": "Controls",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3.could-not-read",
+      "set": "Set3",
+      "request": {
+        "couldNotRead": true,
+        "source": "Project_3_RFP_Response.docx"
+      }
+    },
+    {
+      "name": "Set3-step6-pass.agent-earlier",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM Implementation",
+            "location": "Section 'the program Program — SAP PM Implementation'",
+            "quote": "the program Program — SAP PM Implementation"
+          },
+          {
+            "name": "Development & Integration",
+            "location": "Section 'Development & Integration Methodology'",
+            "quote": "Development & Integration Methodology"
+          },
+          {
+            "name": "Data conversion",
+            "location": "Section 'Data conversion methodology'",
+            "quote": "Deloitte recommends a phased data conversion approach"
+          },
+          {
+            "name": "integrated security workstream",
+            "location": "Section 'Security Design'",
+            "quote": "Our integrated security workstream will adopt a scalable risk-based approach"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3-step6-pass.agent-today",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'Implementation Methodology & Delivery Framework'",
+            "quote": "Deloitte will deliver the Project 3 the program SAP PM program"
+          },
+          {
+            "name": "Integration",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Security",
+            "location": "Table 17, section 'Risks & Assumptions'",
+            "quote": "Deloitte will create up to 50 new master security roles"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3-step6-pass.plain-names",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [
+          {
+            "name": "Plant Maintenance",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Integrations",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Controls",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3-step6-pass.today-plus-ocm-testing",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'Implementation Methodology & Delivery Framework'",
+            "quote": "Deloitte will deliver the Project 3 the program SAP PM program"
+          },
+          {
+            "name": "Integration",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Security",
+            "location": "Table 17, section 'Risks & Assumptions'",
+            "quote": "Deloitte will create up to 50 new master security roles"
+          },
+          {
+            "name": "OCM",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Testing",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3-step6-pass.today-plus-controls",
+      "set": "Set3-step6-pass",
+      "request": {
+        "promised": [
+          {
+            "name": "SAP PM",
+            "location": "Section 'Implementation Methodology & Delivery Framework'",
+            "quote": "Deloitte will deliver the Project 3 the program SAP PM program"
+          },
+          {
+            "name": "Integration",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Data Conversion",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          },
+          {
+            "name": "Security",
+            "location": "Table 17, section 'Risks & Assumptions'",
+            "quote": "Deloitte will create up to 50 new master security roles"
+          },
+          {
+            "name": "Controls",
+            "location": "Section 'Tailored Methodology'",
+            "quote": "Integrated delivery across SAP PM, integrations, data conversion, controls, testing, and OCM"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Set3-step6-pass.could-not-read",
+      "set": "Set3-step6-pass",
+      "request": {
+        "couldNotRead": true,
+        "source": "Project_3_RFP_Response.docx"
+      }
+    }
+  ],
+  "agentOutputs": [
+    {
+      "name": "set1_2026-09-30",
+      "set": "Set1",
+      "file": "agent_outputs/set1_2026-09-30.json"
+    },
+    {
+      "name": "set3_2026-09-30",
+      "set": "Set3",
+      "file": "agent_outputs/set3_2026-09-30.json"
+    },
+    {
+      "name": "set3_earlier",
+      "set": "Set3",
+      "file": "agent_outputs/set3_earlier.json"
+    }
+  ],
+  "sameAnswer": [
+    [
+      "Set3-step6-pass.agent-earlier",
+      "Set3-step6-pass.agent-today",
+      "Set3-step6-pass.plain-names",
+      "Set3-step6-pass.today-plus-ocm-testing",
+      "Set3-step6-pass.today-plus-controls"
+    ]
+  ]
+}

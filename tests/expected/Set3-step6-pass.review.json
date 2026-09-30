@@ -1,0 +1,670 @@
+{
+  "ok": true,
+  "action": "review",
+  "schemaVersion": "2.1",
+  "filesPresent": true,
+  "fileIssues": [],
+  "files": [
+    {
+      "fileName": "Project_3_Nextgen.xlsm",
+      "type": "NextGen",
+      "reason": "'Raw Data' sheet has columns Resource Group, SourceGroupType, Effort",
+      "lastSaved": "2026-09-30 08:51:20",
+      "sizeBytes": 133504
+    },
+    {
+      "fileName": "Project_3_RFP_Response.docx",
+      "type": "Response",
+      "reason": "written by Deloitte: 'Deloitte' 85x, 'Request for Proposal' 0x, 'RFP' 4x",
+      "lastSaved": "2026-09-30 08:51:20",
+      "sizeBytes": 4751790
+    },
+    {
+      "fileName": "Project_3_SA_Readout_Report.pptx",
+      "type": "Other",
+      "reason": "SA readout report (reviewer output, never sent to the agent)",
+      "lastSaved": "2026-09-30 08:51:20",
+      "sizeBytes": 69267
+    },
+    {
+      "fileName": "Project_3_TAM_Model.xlsm",
+      "type": "PricingModel",
+      "reason": "has sheets 'Engagement Metrics' + 'Resourcing'",
+      "lastSaved": "2026-09-30 08:51:20",
+      "sizeBytes": 9507258
+    }
+  ],
+  "answerValues": "Yes | No | Needs review. A definite fail is No; a part that couldn't be checked makes it Needs review; a reading problem makes it Needs review even if it would fail.",
+  "pricingModel": {
+    "file": "Project_3_TAM_Model.xlsm",
+    "sheet": "Resourcing",
+    "layout": "new",
+    "headerRow": 16,
+    "columns": {
+      "cohort": "D",
+      "business": "G",
+      "geography": "J",
+      "title": "M",
+      "jobLevel": "S",
+      "workTeam": "N",
+      "role": "O",
+      "totalHours": "RE"
+    },
+    "rowsRead": 46,
+    "totalHours": 72028.5,
+    "sheetOwnTotal": 72028.5,
+    "periodColumns": 195,
+    "notes": []
+  },
+  "nextGen": {
+    "file": "Project_3_Nextgen.xlsm",
+    "rowsRead": 118,
+    "hoursBySourceGroupType": {
+      "D": 65272.45,
+      "C": 22624.51
+    },
+    "deloitteHoursByGroup": {
+      "Development": 18493.25,
+      "Functional": 12976.95,
+      "Testing": 9731.85,
+      "Change Management": 8023.78,
+      "Security & Controls": 3746.88,
+      "Infrastructure": 3673.93,
+      "Project Management": 3292.28,
+      "Data": 3011.14,
+      "Deployment": 1920.49,
+      "Service Delivery": 401.9
+    },
+    "notes": []
+  },
+  "questions": [
+    {
+      "no": 1,
+      "question": "Is US/USI mix percentage acceptable",
+      "answer": "Yes",
+      "decidedBy": "code",
+      "rule": "USI must be 70–80% and US+RoW 20–30% of total hours.",
+      "summary": "Yes. USI is 77.26% (55,652 of 72,028.5 hrs) and US+RoW is 22.74%. USI must be 70–80% and US+RoW 20–30% of total hours.",
+      "reviewReasons": [],
+      "values": {
+        "usiHours": 55652,
+        "usPlusRowHours": 16376.5,
+        "totalHours": 72028.5,
+        "usiPct": 77.26,
+        "usPlusRowPct": 22.74
+      },
+      "trail": [
+        "Hours come from Resourcing > Total Engagement (column RE): 45 rows with hours, 72,028.5 hrs in total.",
+        "Split by Geography (column J): 'India' counts as USI, everything else as US+RoW (same as the old workflow).",
+        "Hours by Geography: India 55,652, US 12,376.5, US - Project 2,840, Mexico 1,160.",
+        "USI 55,652 ÷ 72,028.5 = 77.26% (pass); US+RoW 16,376.5 ÷ 72,028.5 = 22.74% (pass)."
+      ],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 2,
+      "question": "Is the bulge ratio proposed acceptable",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "USI and non-USI bulge ratios (junior hours ÷ senior hours) must both be 1.90–2.10, compared at 2 decimals.",
+      "summary": "No. USI bulge is 0.88 (26,055 junior ÷ 29,597 senior hrs) and non-USI is 0.44 (5,000 ÷ 11,376.5); both must be 1.90–2.10.",
+      "reviewReasons": [],
+      "values": {
+        "usiBulge": 0.88,
+        "nonUsiBulge": 0.44,
+        "usiJuniorHours": 26055,
+        "usiSeniorHours": 29597,
+        "nonUsiJuniorHours": 5000,
+        "nonUsiSeniorHours": 11376.5
+      },
+      "trail": [
+        "Junior = codes L25/L35 or titles Associate Analyst, Analyst, Consultant; senior = codes L40/L45/L55/L65/LPP/LL or titles Sr Consultant, Manager, Sr Manager, Managing Director, Partner, Principal. Whole values only, so 'Senior Consultant' is never read as 'Consultant'.",
+        "USI = Geography India; everything else is non-USI.",
+        "EFA row 89: L40 - Specialist Assistant Manager, EFA counted as senior (304 hrs), as the old workflow did.",
+        "USI: 26,055 junior ÷ 29,597 senior = 0.88 (fail).",
+        "Non-USI: 5,000 junior ÷ 11,376.5 senior = 0.44 (fail)."
+      ],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 3,
+      "question": "Are different project streams adequately staffed",
+      "answer": null,
+      "decidedBy": "waiting for checkWorkstreams",
+      "rule": "Step 6: NextGen Functional hours (Deloitte only) must be at least 70% of the pricing model's Functional hours. Step 7: every workstream the response document promises must be staffed in the pricing model. Yes only if both pass.",
+      "summary": "Step 6 pass: NextGen Functional hours are 78.27% of the pricing model's (12,977 ÷ 16,579); at least 70% is needed. Step 7 waits for the agent: call checkWorkstreams to get Q3's answer.",
+      "reviewReasons": [],
+      "values": {
+        "nextGenFunctionalHours": 12976.95,
+        "pricingFunctionalHours": 16579,
+        "functionalPct": 78.27,
+        "step6Passed": true
+      },
+      "trail": [
+        "NextGen: Raw Data, Resource Group 'Functional', SourceGroupType = D → 12,977 hrs.",
+        "Pricing model Functional hours: 16,579 hrs from SAP EAM Functional Team Member 4,095, SAP EAM USI Functional Lead 3,375, SAP EAM Functional Team Member (Capital Integration Focussed) 3,375, EAM Functional Analyst Onsite  (+PMO) 2,640, PMO + Functional EAM Lead 2,134, Functional EAM Blueprint Support Con 960.",
+        "7 row(s) had no known Work Team and were placed by role name: PMO + Functional EAM Lead → Functional; SAP EAM USI Functional Lead → Functional; SAP EAM Functional Team Member → Functional; Functional EAM Blueprint Support Con → Functional; SAP EAM Functional Team Member (Capital Integration Focussed) → Functional; EAM Functional Analyst Onsite  (+PMO) → Functional.",
+        "Step 6: 12,977 ÷ 16,579 = 78.27% (pass; needs at least 70%)."
+      ],
+      "flags": [
+        "Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management)."
+      ],
+      "settingsHints": [],
+      "agentTask": {
+        "action": "checkWorkstreams",
+        "instruction": "Step 7: find every workstream this response document says Deloitte will deliver. A team, scope or work stream table is the best source. Start with responseDocument.evidence and use searchResponse to look further (by slide or section, or words like 'team', 'scope', 'work stream'). Check responseDocument.leftOut too: pictures can't be read, so a team chart pasted as a picture may be missed. Then call checkWorkstreams with every promised workstream, where you found it and a short quote. Code does the matching and gives Q3's answer; don't match or decide yourself.",
+        "hoursCheckPassed": true,
+        "modelWorkstreams": {
+          "Development": [
+            "Technical - ABAP/UI5 (8,460 hrs)",
+            "Technical - BTP CPI (5,850 hrs)",
+            "SAP EAM Functional Team Member (Capital Integration Focussed) (3,375 hrs)",
+            "Integration and Cutover Lead (with EAM Skillset) (1,680 hrs)",
+            "Integration & Cutover Team Mmber (1,400 hrs)"
+          ],
+          "Data": [
+            "Technical Data Team Member (5,400 hrs)",
+            "Data Lead Offshore- Techno/Functional (2,835 hrs)",
+            "Data Reporting Onsite Lead (1,160 hrs)"
+          ],
+          "Analytics": [
+            "Reporting Team Member (4,770 hrs)",
+            "Data Reporting Onsite Lead (1,160 hrs)",
+            "Reporting SME (200 hrs)"
+          ],
+          "Security": [
+            "Security Team Member (4,635 hrs)",
+            "Controls Lead (2,340 hrs)",
+            "Security Design Lead (640 hrs)"
+          ],
+          "EAM": [
+            "SAP EAM Functional Team Member (4,095 hrs)",
+            "SAP EAM USI Functional Lead (3,375 hrs)",
+            "SAP EAM Functional Team Member (Capital Integration Focussed) (3,375 hrs)",
+            "EAM Functional Analyst Onsite  (+PMO) (2,640 hrs)",
+            "PMO + Functional EAM Lead (2,134 hrs)",
+            "Integration and Cutover Lead (with EAM Skillset) (1,680 hrs)",
+            "Functional EAM Blueprint Support Con (960 hrs)"
+          ],
+          "Basis": [
+            "Basis SME Hours (200 hrs)"
+          ]
+        },
+        "modelTeamsNotInSapList": [
+          "Technical - BTP UI5 (3,015 hrs)",
+          "Technical Lead (2,840 hrs)",
+          "Change Support (2,430 hrs)",
+          "Change Lead (2,260 hrs)",
+          "Training Developer (1,530 hrs)",
+          "WalkMe Developer (900 hrs)",
+          "Training Lead/Developer (830 hrs)",
+          "Global Delivery Manager - Functional and Technical (608 hrs)",
+          "WalkMe Lead (540 hrs)",
+          "Leadership (314.5 hrs)",
+          "EFA (304 hrs)",
+          "Manager Contingency Hours (220 hrs)",
+          "GDM (88 hrs)"
+        ]
+      }
+    },
+    {
+      "no": 4,
+      "question": "Are delivery pools and competency pools leveraged",
+      "answer": null,
+      "decidedBy": "on hold",
+      "summary": "On hold; not answered.",
+      "reviewReasons": [],
+      "values": {},
+      "trail": [],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 5,
+      "question": "Are staffing hrs. in line with Nextgen estimated Hrs.(overall and by streams)",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "NextGen hours (Deloitte only) must be at least 70% of pricing model hours, overall and for each NextGen resource group.",
+      "summary": "No. Overall NextGen is 90.62% of pricing hours (65,272.5 ÷ 72,028.5; needs 70%). Groups below 70%: Security 49.20% (gap 20.80 points), Data 20.96% (gap 49.04 points), Deployment 62.35% (gap 7.65 points). Not fully checked (the fail stands anyway): No staffed hours for 'Testing' in the pricing model, while NextGen estimates 9,731.9 hrs.",
+      "reviewReasons": [
+        "No staffed hours for 'Testing' in the pricing model, while NextGen estimates 9,731.9 hrs."
+      ],
+      "values": {
+        "overallPct": 90.62,
+        "nextGenHours": 65272.45,
+        "pricingHours": 72028.5,
+        "groups": [
+          {
+            "group": "Development",
+            "nextGenHours": 18493.25,
+            "pricingHours": 20165,
+            "pct": 91.71,
+            "passed": true
+          },
+          {
+            "group": "Functional",
+            "nextGenHours": 12976.95,
+            "pricingHours": 16579,
+            "pct": 78.27,
+            "passed": true
+          },
+          {
+            "group": "Testing",
+            "nextGenHours": 9731.85,
+            "pricingHours": 0,
+            "pct": null,
+            "passed": null
+          },
+          {
+            "group": "Change Management",
+            "nextGenHours": 8023.78,
+            "pricingHours": 8490,
+            "pct": 94.51,
+            "passed": true
+          },
+          {
+            "group": "Security",
+            "nextGenHours": 3746.88,
+            "pricingHours": 7615,
+            "pct": 49.2,
+            "passed": false
+          },
+          {
+            "group": "Project Management",
+            "nextGenHours": 3694.18,
+            "pricingHours": 1010.5,
+            "pct": 365.58,
+            "passed": true
+          },
+          {
+            "group": "Infrastructure",
+            "nextGenHours": 3673.93,
+            "pricingHours": 200,
+            "pct": 1836.97,
+            "passed": true
+          },
+          {
+            "group": "Data",
+            "nextGenHours": 3011.14,
+            "pricingHours": 14365,
+            "pct": 20.96,
+            "passed": false
+          },
+          {
+            "group": "Deployment",
+            "nextGenHours": 1920.49,
+            "pricingHours": 3080,
+            "pct": 62.35,
+            "passed": false
+          }
+        ]
+      },
+      "trail": [
+        "Overall: NextGen 65,272.5 ÷ pricing 72,028.5 = 90.62% (pass).",
+        "Development: NextGen 18,493.3 ÷ pricing 20,165 = 91.71% (pass).",
+        "Functional: NextGen 12,977 ÷ pricing 16,579 = 78.27% (pass).",
+        "Testing: NextGen 9,731.9 vs pricing 0 → no staffed hours, so it can't be compared.",
+        "Change Management: NextGen 8,023.8 ÷ pricing 8,490 = 94.51% (pass).",
+        "Security: NextGen 3,746.9 ÷ pricing 7,615 = 49.20% (fail).",
+        "Project Management: NextGen 3,694.2 ÷ pricing 1,010.5 = 365.58% (pass).",
+        "Infrastructure: NextGen 3,673.9 ÷ pricing 200 = 1836.97% (pass).",
+        "Data: NextGen 3,011.1 ÷ pricing 14,365 = 20.96% (fail).",
+        "Deployment: NextGen 1,920.5 ÷ pricing 3,080 = 62.35% (fail).",
+        "43 row(s) had no known Work Team and were placed by role name: Leadership → Project Management; PMO + Functional EAM Lead → Functional; Global Delivery Manager - Functional and Technical → Project Management; SAP EAM USI Functional Lead → Functional; SAP EAM Functional Team Member → Functional; Functional EAM Blueprint Support Con → Functional; SAP EAM Functional Team Member (Capital Integration Focussed) → Functional; EAM Functional Analyst Onsite  (+PMO) → Functional; Technical Lead → Development; Technical - ABAP/UI5 → Development; Technical - BTP CPI → Development; Technical - BTP UI5 → Development."
+      ],
+      "flags": [
+        "2 pricing row(s) (524 hrs) match no NextGen group, so they count in the overall total only: Manager Contingency Hours 220; EFA 304.",
+        "Role names that fit more than one group, placed by rule order: 'PMO + Functional EAM Lead' → Functional (also Project Management); 'Global Delivery Manager - Functional and Technical' → Project Management (also Development, Functional); 'EAM Functional Analyst Onsite  (+PMO)' → Functional (also Project Management); 'Data Lead Offshore- Techno/Functional' → Data (also Functional); 'Technical Data Team Member' → Data (also Development); 'Integration and Cutover Lead (with EAM Skillset)' → Deployment (also Functional)."
+      ],
+      "settingsHints": [
+        {
+          "issue": "Role 'Manager Contingency Hours' (220 hrs) has no Work Team and matches no NextGen group",
+          "change": "add a keyword from \"Manager Contingency Hours\" to roleKeywordRules under its NextGen group, or leave it if the role has no NextGen group"
+        }
+      ]
+    },
+    {
+      "no": 6,
+      "question": "Are EFA and PPMD hrs accounted ?",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "Each EFA row needs 5.00–10.00 hrs in each of the first 4 periods after EFA hours start, and Managing Director hours must be 0.30–0.50% of total hours. Both must pass.",
+      "summary": "No. EFA: EFA hours per period in FY27 P3–FY27 P6: 12, 16, 16, 16 (needs 5.00–10.00 each) → fail. MD hours are 0.39% of total (281 ÷ 72,028.5) (needs 0.30–0.50%) → pass.",
+      "reviewReasons": [],
+      "values": {
+        "efaRows": 1,
+        "efaPassed": false,
+        "mdHours": 281,
+        "mdPct": 0.39,
+        "mdPassed": true
+      },
+      "trail": [
+        "EFA rows found by 'EFA' / 'Engagement Financial Advisor' in cohort, team, role or title: 1. Periods checked: FY27 P3–FY27 P6.",
+        "row 89: L40 - Specialist Assistant Manager, EFA: 12, 16, 16, 16 (fail)",
+        "Managing Director rows: 5 (row 17 142 hrs; row 19 72 hrs; row 20 33.5 hrs; row 21 33.5 hrs; row 87 0 hrs); 281 ÷ 72,028.5 = 0.39% (pass)."
+      ],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 7,
+      "question": "Are the rampups and ramp downs inline with project phases",
+      "answer": null,
+      "decidedBy": "on hold",
+      "summary": "On hold; not answered.",
+      "reviewReasons": [],
+      "values": {},
+      "trail": [],
+      "flags": [],
+      "settingsHints": []
+    },
+    {
+      "no": 8,
+      "question": "Does the staffing have enough lead FTE roles",
+      "answer": "No",
+      "decidedBy": "code",
+      "rule": "SC + M rows must be 25% of practitioner rows, rounded to the nearest whole person (exactly half-way accepts both).",
+      "summary": "No. SC + M = 18 of 45 practitioners (40.00%); the rule needs 11 (25% of 45 = 11.25), so 7 more than needed.",
+      "reviewReasons": [],
+      "values": {
+        "practitioners": 45,
+        "leads": 18,
+        "leadPct": 40,
+        "leadsNeeded": [
+          11
+        ]
+      },
+      "trail": [
+        "Practitioners = rows with a title and hours: 45 (EFA rows included, rows with no title left out, as the old workflow did).",
+        "Leads = codes L45/L55 or titles Sr Consultant, Manager (Senior Managers not counted): 18 rows (L45 x12, L55 x6).",
+        "25% of 45 = 11.25 people, so 11 lead(s) pass; found 18 = 40.00% (fail)."
+      ],
+      "flags": [],
+      "settingsHints": []
+    }
+  ],
+  "responseDocument": {
+    "fileName": "Project_3_RFP_Response.docx",
+    "totalWords": 18477,
+    "blocksInDocument": 525,
+    "blocksIncluded": 20,
+    "evidence": [
+      {
+        "kind": "table",
+        "location": "Table 2",
+        "text": "the program Program — SAP PM Implementation System Integrator RFP Response Submitted to: Project 3 Submitted by: Deloitte Date: July 17, 2026 Primary Contact: [Contact Name] | [email] | [phone]"
+      },
+      {
+        "kind": "heading",
+        "location": "Section 'the program Program — SAP PM Implementation'",
+        "text": "the program Program — SAP PM Implementation"
+      },
+      {
+        "kind": "table",
+        "location": "Table 3, section 'Tailored Methodology'",
+        "text": "Ascend Phase | # | Milestone | Stage Gate Alignment\n | M0 | Award and Project Start (Contract Effective Date) | Pre-SG0\nPrepare | M1 | Project Preparation, Mobilization, Kickoff, and Plan Approved | SG0 → SG1\nImagine | M2 | Solution Design / Fit-Gap Complete + Controls Design Walkthrough + RTM Refresh | SG2 (Design Baseline Approved)\nDeliver | M3 | Functional and Technical Specifications 50% Approved + Build Started + 1st End-State Demo + Mock Conversion Load #1 Reconciled | Mid-SG3\nDeliver | M4 | Functional and Technical Specifications 100% Approved + 2nd End-State Demo + Mock Conversion Load #2 Reconciled | Late-SG3\nDeliver | M5 | Build, Unit Test, and Configuration Baseline Complete + 3rd End-State Demo | SG3 (Build / Test Ready)\nDeliver | M6 | SIT Three Cycles Complete + Joint Integration Testing Complete + Controls Test of Operating Effectiveness in SIT | Post-SG3\nRun | M7 | UAT Sign-off + Mock Conversion Load #3 + Cutover Rehearsal #3 Pass + Controls Readiness Statement + Go-Live Readiness Approved | SG4 (Go-Live Readiness)\nRun | M8, M10 | Go-Live (Project 3 Indiana + Project 3 Ohio + MVLt) — Successful Cutover and Day-14 Production Stability | SG4 Execution\nRun | M9, M11 | Hypercare Exit (75 Days) + Transition-to-AMS + Hypercare Controls Readiness Statement + Project Closeout + Retainage Release | SG4 Stabilization SG5 Closeout"
+      },
+      {
+        "kind": "heading",
+        "location": "Section 'Risk Management, Governance & Quality Management'",
+        "text": "Risk Management, Governance & Quality Management"
+      },
+      {
+        "kind": "paragraph",
+        "location": "Section 'Risk Management Lifecycle'",
+        "text": "Outputs: Risk Management Plan, risk taxonomy aligned to the program workstreams, scoring matrix, escalation criteria, Smartsheet dashboard/reporting standards conforming to Project 3 Digital PMO Playbook."
+      },
+      {
+        "kind": "table",
+        "location": "Table 5, section 'Risk Management Lifecycle'",
+        "text": "Plan Quality Management | Practice of defining the project’s quality objectives and expectations, and planning the tasks, procedures, tools, and participants that will perform the quality activities for the project. We plan the strategy, processes, and tools used to perform the three components of the project’s overall quality program: quality assurance, quality control, and quality support.\nExecute Quality Assurance | Practices to establish and manage project delivery standards, monitor adherence, and make process improvements. We verify that the project has the processes and tools it needs to deliver a high-quality solution and that the project team is using them effectively. These objectives are accomplished by performing the following tasks: managing the project methods and templates, managing the project standards and guidelines, and performing the quality assessment activities planned for the project.\nMonitor and Control Quality | Practices that monitor project results and identify corrective, preventative, and improvement actions. We perform the deliverable reviews planned for the project, complete the deliverable sign-offs planned for the project, and manage the detailed project metrics plan for the project.\nExecute Quality Support | Practices whereby non-project specialists are leveraged to assess, advise, and assist the project team, providing additional oversight and support to the project. We execute the quality support activities planned for the project, as defined in the quality management plan."
+      },
+      {
+        "kind": "table",
+        "location": "Table 6, section '5.1 Functional Design'",
+        "text": "Work Types | Process Scope (Refined Wording) | Implementation Complexity\nCORE MAINTENANCE | Preventive Maintenance | Very High\n | Predictive Maintenance (Condition-Based / SCADA-Triggered) | High\n | Corrective Maintenance (Reactive / Breakdown Work) | High\nOMS-TRIGGERED WORK | OMS Like-for-Like Follow-Up (Direct Asset Replacement) | High\n | OMS Storm Work (Storm-Driven Reactive Construction) | High\n | OMS Unplanned Engineering Follow-Up (Engineering-Required Reactive Work) | Medium\n | OMS Streetlighting Follow-Up (MVLt — Miami Valley Lighting) | Medium\nCONSTRUCTION & CAPITAL | Long-Cycle Construction (Investment-Plan or Customer-Initiated Capital Projects) | Very High\n | Minor Capital Work (Small Capital Projects / Simple Replacements) | Medium\n | Joint Use / Make-Ready (Pole Attachment & Third-Party Coordination) | Medium\nCUSTOMER SERVICE | Customer Service Connections (New Service / Residential & Commercial) | Medium\n | New Streetlight Service Installation (MVLt Customer-Initiated Capital) | Medium\n | IS-U New Connection / Disconnection (Meter Service Order Management) | Medium\n | Meter Replacement (Asset Replacement via IS-U / OMS Trigger) | Medium\nSTREETLIGHTING — MVLt SPECIFIC | Streetlight Customer Service (MVLt — Streetlight Fault & Repair) | Medium\n | Streetlighting Billing / IS-U Billing Touch (formerly 'Joint-use billing') | Low\nSCHEDULING & FIELD EXECUTION | Maintenance Scheduling (Work Order Sequencing & Dispatch Readiness) | High\n | Maintenance Execution & Mobile Field Capture (Confirmations, As-Built, Materials, Attachments) | High"
+      },
+      {
+        "kind": "heading",
+        "location": "Section 'Security Design'",
+        "text": "Security Design"
+      },
+      {
+        "kind": "heading",
+        "location": "Section 'Development & Integration Methodology'",
+        "text": "Development & Integration Methodology"
+      },
+      {
+        "kind": "table",
+        "location": "Table 7, section 'Development & Integration Methodology'",
+        "text": "Type | Description\nStandard SAP Integration Content | Leverage SAP’s native, out-of-the-box integration content wherever possible. This includes pre-delivered content for SuccessFactors, Service cloud and several other solutions. Benefits: Standard content accelerates implementation, ensures compatibility with SAP’s roadmap, and reduces maintenance overhead.\nApplication Programming Interface (API) | Prioritize the use of standard, whitelisted APIs published in the SAP API Hub for all integration requirements. Where necessary, extend these APIs using SAP’s “clean core” principles, leveraging both in-app and side-by-side extensibility options. In direct migration scenarios, we will try to reuse existing ABAP proxy code after code remediation.\nSAP Events | Where real-time, event-driven integration is required, leverage SAP’s standard event framework (or leverage ASAPIO add-on for custom events) to enable asynchronous event-driven communication. This approach supports scalable, decoupled architectures and enhances responsiveness across business processes.\nIDOCs | IDocs remain a preferred approach for certain scenarios, such as EDI integrations. SAP S/4HANA also provides a robust, out-of-the-box framework for IDoc monitoring and reprocessing. Best Practice: We recommend using only future-ready, cloud-compatible IDocs and avoiding complex customizations. This ensures alignment with SAP’s strategic direction and simplifies ongoing support.\nFile based integration | File-based integration should be reserved and approved for exception cases, such as when standard SAP programs require or generate specific file formats (for e.g. XML and BAI formats for banks) when handling confidential files with sensitive PII data, or for high-volume, full-load data exchanges between on-premise systems. These integrations should follow an asynchronous pattern, and comprehensive stress and performance testing must be conducted. Our team has extensive experience designing such solutions, often combining file-based methods with an API-first approach to maintain a clean core."
+      },
+      {
+        "kind": "table",
+        "location": "Table 10, section '8.1 Overview'",
+        "text": "Testing Type | Definition | Data Source | Manual / Automation | Testing Tools\nFunctional Unit Testing | Validates that each RICEFW object is developed in accordance with its functional specification. Executed by the SI development team; mandatory exit gate before any object is promoted beyond the development environment. | Synthetic / unit data | Manual | Panaya (or Project 3-approved equivalent)\nString Testing | Validates that a sequence of logically related transactions executes correctly as an end-to-end process thread within a single functional area, prior to full system testing. | Mock data | Manual | Panaya (or Project 3-approved equivalent)\nSystem Testing | Validates the configured SAP PM solution as a complete system across all process areas and all three OpCos, exercising configuration, master data, and custom developments together. | Mock Load 1 | Automation and manual | Panaya (or Project 3-approved equivalent); test automation execution tooling subject to Project 3 confirmation\nSystem Integration Testing (3 cycles) | Validates bidirectional data flow, message processing, error handling, and recovery behavior across all integration interfaces between SAP PM and connected upstream and downstream systems. | Mock Load (3 cycles) | Automation and manual | Panaya (or Project 3-approved equivalent); integration test automation tooling subject to Project 3 confirmation\nUser Acceptance Testing support | Validates that the solution meets Project 3 business requirements and is fit for operational use. Executed by Project 3 business users; the SI provides test coordination, environment management, defect triage, and issue resolution support. | Representative production-like data | Manual | Panaya (or Project 3-approved equivalent)\nRegression Testing | Confirms that the program configuration changes and the S/4HANA upgrade do not introduce unintended defects into existing SAP functionality outside the direct program scope. Executed iteratively at each significant build release. | Production-representative | Automation and manual | Panaya (or Project 3-approved equivalent); regression automation execution tooling subject to Project 3 confirmation\nPerformance Testing support | Project 3-owned activity. The SI supports by developing the performance testing plan, configuring test scenarios, participating in execution, and owning timely resolution of SAP-PM-specific performance defects. | Production-like volumes | Automation and manual | Panaya (or Project 3-approved equivalent); performance testing execution tooling subject to Project 3 confirmation\nSecurity Testing | Validates that the SAP PM authorization model enforces appropriate role-based access controls, segregation of duties, and data protection requirements across all user roles and OpCos. | Role-assigned test users | Manual and automated | Panaya (or Project 3-approved equivalent); SAP security tooling\nControls Testing | Validates that key application controls embedded in the the program solution are operating as designed and meet Project 3's internal control framework and audit requirements. | SIT / UAT / Production data | Manual | Panaya (or Project 3-approved equivalent)\nMock Conversion Testing | Validates that all data migration objects convert correctly, completely, and within the load time windows required by the cutover runbook. Executed in multiple iterations — each mock addresses defects and timing gaps from the prior run. | Actual source-system extracts | Automation and manual | Panaya (or Project 3-approved equivalent); SAP data migration tooling\nDress Rehearsal | Full dress rehearsal of the production cutover runbook in a production-equivalent environment, validating sequence, timing, team readiness, and decision escalation before the live cutover window. | Production clone | Manual | Panaya (or Project 3-approved equivalent); Cutover Runbook"
+      },
+      {
+        "kind": "table",
+        "location": "Table 11, section 'Change Management Methodology'",
+        "text": "Pillar 1 Change Strategy & Analytics | Leveraging existing diagnostics to right-size SAP PM change interventions"
+      },
+      {
+        "kind": "table",
+        "location": "Table 15, section 'Our Tools and Accelerators:'",
+        "text": "Area | Tools / Accelerator | Details | Benefits to Project 3\nProject Management & Governance | PMOne | PMOne, hosted on the Smartsheet platform, is a collaborative project management tool that allows robust customization, tailored alerting, and easy sharing with the entire project team. | Provides Project 3 the program program leadership and SI teams with a unified, real-time view of IMS milestones, RAIDD logs, wave readiness, and go/no-go criteria — replacing manual status tracking across Indiana, Ohio, and MVLt workstreams.\nBusiness Process Design | Enterprise Consciousness (ECON) | Enterprise Consciousness™ (ECON) is a process modeling platform that enhances how organizations design and execute business transformation in support of their strategic priorities while enabling responsible decision-making. | Enables Project 3 to visually model and validate the IPSECA (Identify–Plan–Schedule–Execute–Close–Analyze) work management process, ensuring alignment between SAP PM configuration and Project 3 Indiana, Ohio, and MVLt operational requirements before build.\nSAP PM Configuration | Autonomous Configuration | Autonomous Configuration Tool, powered by the latest OpenAI models, leverages Deloitte's comprehensive repository and Gen AI for Fit/Gap assessments, configuration path predictions, and automating configuration build. | Reduces manual configuration effort across PM Enterprise Structure nodes, master data, notification/order types, CU-based construction lifecycle, WBS/settlement patterns, and Fiori UX setup — accelerating delivery timelines for all three Project 3 utilities.\nRICEFW / Functional Specs | Spec Starter | Spec Starter leverages Gen AI on Deloitte's existing knowledge repository to ensure consistent quality and increased efficiency for generating functional and technical specifications, with automated Document Analyzer review capability. | Accelerates authoring of Project 3's RICEFW functional and technical specifications (Reports, Interfaces, Conversions, Enhancements, Forms, Workflows), ensuring consistency and reducing review cycles within the controlled change management process.\nCustom Development (ABAP / Fiori) | Autonomous Code | Autonomous Code, powered by OpenAI's latest models, leverages Deloitte's extensive code repository, enabling translation of requirements into functional code along with unit test cases to validate solution effectiveness in significantly shorter duration. | Speeds up delivery of Project 3-specific custom Fiori apps, ABAP enhancements, and RICEFW objects (e.g., CU governance forms, capitalization controls, Joule agent prerequisites) while embedding unit test proposals to reduce defect leakage into SIT cycles and UAT.\nData Migration & Conversion | Autonomous Data | Autonomous Data provides an innovative ETL (Extract Transform & Load) solution for data migration that combines Gen AI with Deloitte's industry expertise. The platform integrates all essential steps of data migration — Data Extraction, Profiling, Mapping, Load, and Reconciliation — enhanced with Gen AI, making the process faster with improved data quality. | Directly supports Project 3's 12 conversion objects (C_01–C_12), including FLOC migration, open WBS/CU Design/Construction Measure conversion, GIS equipment sync, and in-flight work order cutover from GTECH/WMIS and Stakeout — with built-in reconciliation to meet Project 3's mock load cadence requirements.\nTesting | Test AI (Ascend Test) | Ascend Test solution is designed to accelerate the test design, test planning, and test execution phase, thereby reducing testing timeline, generating efficiencies, and minimizing scope of error during testing cycles. | Supports Project 3's multi-phase testing strategy (FUT, String, SIT ×3, UAT, Regression, Performance, Controls, Cutover Rehearsal, Mock Conversion) — reducing elapsed testing time and improving traceability across 75-day hypercare period.\nTesting | AL M - Panaya | All defects are logged in Panaya (Project 3 preference  …"
+      },
+      {
+        "kind": "table",
+        "location": "Table 16, section 'Deliverables, Decision Points, Quality Gates & Acceptance Criteria'",
+        "text": "Deloitte Ascend Phase | Project 3 Stage Gate / Milestone | Deliverables | Decision Points | Quality Gates & Acceptance Criteria\nPrepare | SG0–SG1 / M1: Project Preparation, Mobilization, Kickoff, Plan Approved | Project Charter PMP IMS baseline RASCI Stakeholders register and approval matrix Communications plan RAIDD baseline Resource plan kickoff pack Design / fit-gap approach document | Approve mobilization, governance model, scope alignment, baseline schedule, and decision-rights structure. | G0 and SG1 signed by Project 3 Program Lead and Steering Committee; Performance Canvas, IMS, and RAIDD accepted into the consolidated the program PMO system of record\nImagine | SG2 / M2: Solution Design / Fit-Gap Complete + Controls Design Walkthrough + RTM Refresh | Updated RTM with fit/gap disposition Refreshed RICEFW list Future-state process designs Controls design document Integration design Data and conversion strategy Draft test plan Updated PMP/IMS/RAIDD | Approve target-state design baseline, fit/gap disposition, and proceed-to-build decision. | Design baseline accepted; controls design walkthrough completed; RTM refreshed and aligned to design, RICEFW, and test evidence\nDeliver | Pre-SG3 / M5: Build Complete + Test Ready + Master Test Plan Approved | End-state demo Approved master test plan Authored/reviewed test scripts Cutover plan draft Training materials Updated RTM, RICEFW list, IMS, and RAIDD log. Project 3 requires the master test plan and supporting acceptance pack before testing gates can be closed | Decide solution is ready for formal SIT/UAT execution and integrated validation. | Master Test Plan approved; build sufficiently complete for formal testing; acceptance pack posted at least five business days before the review\nDeliver | SG3 / M6: SIT Cycles Complete + Joint Integration Testing + Controls TOE in SIT | SIT cycle evidence Integration testing results Defect register Controls test evidence RTM traceability snapshot Updated cutover and training materials | Approve exit from SIT and readiness to move toward UAT / deployment readiness. | SIT completed through all required cycles; acceptance by Project 3 Test Sponsor and Project 3 Business Lead; zero critical defects open at exit\nDeliver | SG4 / M7: Go-Live Readiness Approved | UAT sign-off; mock conversion #3 Cutover Rehearsal 3 Regression, performance, and security testing complete Controls Readiness Statement Final cutover runbook Training completion Go/no-go pack Steering Committee approval. Project 3 requires Executive Steering Committee approval for Stage Gate 4 | Formal go/no-go decision for production deployment. | Zero open critical defects; readiness assessment threshold met; integration pass rate ≥95%; Controls Readiness Statement complete; Steering Committee sign-off obtained\nRun | SG4 Execution / M8: Go-Live + Day-14 Production Stability | Production cutover execution Reconciliation evidence Issue log Stabilization tracking Command-center support Day-14 production stability assessment | Confirm successful cutover and operational stability after deployment. | Successful go-live; no rollback invoked; Day-14 production stability achieved; production support operating as expected\nRun | SG4 Stabilization / M9: Hypercare Exit + Transition to AMS | 75-day hypercare support Defect burn-down Knowledge transfer to Project 3 AMS Transition-to-operations document Hypercare controls readiness statement. Project 3 defines explicit hypercare exit criteria and signed transition documents | Approve exit from hypercare and transfer to steady-state support. | Zero daily P1 incidents for five consecutive business days; fewer than five daily P2 incidents for five consecutive business days; documented KT to Project 3 AMS; signed Transition-to-Operations Document; signed Hypercare Controls Readiness Statement\nRun | SG4 Execution / M10: Wave 2 Go-Live + Day-14 Stability | Same as Wave 1 go-live deliverables, adjusted for Wave 2 timing and scope. Project 3 supports single-wa …"
+      },
+      {
+        "kind": "table",
+        "location": "Table 17, section 'Risks & Assumptions'",
+        "text": "Assump. ID | Category | Assumption Statement\n1 | EAM Process Scope | We assume that all existing work order types and notification types configured for different work categories will be retained and managed through the new Fiori applications in SAP S/4HANA.\n2 | EAM Process Scope | We assume that the custom report requiring inputs from designer workload, CU design status, and similar data will be built as part of DDS; therefore, it is considered out of scope for this project.\n3 | Security and Controls Scope | We assume system activities within SAP Governance Risk and Compliance - Access Control (GRC-AC) will be executed by the client including configuring application, uploading of Segregation of Duties (SOD) rulesets, and mapping and application of mitigating controls to end users.\n4 | Security and Controls Scope | We assume the client facilitates interactions with internal and external audit, we (Deloitte) support addressing observations and recommendations.\n5 | Security and Controls Scope | We assume testing and documentation of control activities will occur once within the 3 SIT cycles and within UAT\n6 | Security and Controls Scope | We assume GRC Ruleset refinement is limited to financial risk introduced within the environment as the result of SAP PM implementation and is limited to the tcodes and/or fiori apps contained within the production security design.\n7 | Security and Controls Scope | We assume the client currently leverages a master and derived role construct and security approach that will continue to be leveraged\n8 | Security and Controls Scope | Deloitte will create up to 50 new master security roles including the creation of up to 250 new derivations of the master security roles.\n9 | Security and Controls Scope | We assume user lifecycle processes exists within the landscape and do not require modification or enhancements as part of this inciative including user access reviews, user provisioning and deprovisioning for movers or leavers.\n10 | Security and Controls Scope | Deloitte will implement up to 50 key business process controls and 20 IT General Controls control requirements.\n11 | Security and Controls Scope | Project 3 is responsible for the drafting and updating documentation of Control Process Narratives and/or Control Procedural documents\n12 | Technology | We are assuming the Project 3 S/4 2021 to 2025 Dev environment upgrade will be completed before we begin the SAP EAM implementation.\n13 | Technology | We assume that all transports released from the existing production path DEV in the production landscape, including those related to 2025 upgrade remediation and other break fixes, will be retrofitted into the proposed N+1 EAM Dev system."
+      },
+      {
+        "kind": "table",
+        "location": "Table 18, section 'SI reference #1'",
+        "text": "Field | Content\nClient Name / Descrip tion Project Description / Scope | Peoples Gas (PSG), gas distribution utility owned by TECO Energy/Emera serving 425k customers throughout Florida. Deloitte is leading an S/4 EAM greenfield implementation project to digitalize and enable future growth for PGS. Scope includes S/4 EAM, compatible units, Asset Manager, FSM for schedule/dispatch, Locana Lemur for integration to GIS and mobile mapping capabilities, Mirata Forms over 100 for mobile field completion and data collection, and sync between SAP and GIS for asset/equipment data.\nType of Engagement | Full scope implementation project with Deloitte as Lead SI\nRoles and Responsibilities of SI Project Team | Deloitte owns full project management and delivery including PMO, functional, technical, change management, training, communications, security, and basis.\nLegacy Platform Modernized or Replaced Application Name / Version | Powerplan; infor; CartoPac; ArcGIS; SAP ERP SAP Enterprise Asset Management SAP Asset Manager Mirata SAP FSM\nSolution Implementation Date Total Project Duration | Release 1 planned for November 2022; Release 2 planned for February 2023 January 2021 to April 2023\nProject Outcomes | Structured intake process through ISU, CRB, INFOR, FIORI, and SAM integration Consistent master data across the landscape through GIS integration Improved tracking of construction projects Digitized forms that simplify field execution"
+      },
+      {
+        "kind": "table",
+        "location": "Table 19, section 'SI reference #1'",
+        "text": "Field | Content\nClient Name / Description Project Description / Scope | Avangrid, global electric and gas utility company serving a customer base of 2.4 million . Deloitte implemented SAP Enterprise Asset Management (EAM) for three U.S. subsidiaries of a global electric and gas utility company serving a customer base of 2.4 million. The solution was developed as a global template and later rolled out to additional subsidiaries with localization enhancements. Key highlight of solution was automation/integration of multiple systems using local SAP to Global FI/SCM, GIS. Mobility Solution and Joint pole systems\nType of Engagement | Full scope implementation project with Deloitte as Lead SI\nRoles and Responsibilities of SI Project Team | Deloitte owns full project management and delivery including PMO, functional, technical, change management, training, communications, security, and basis.\nLegacy Platform Modernized or Replaced Application Name / Version | N/A SAP CCS SAP ERP CIS Integrated System GIS; Fleet Fuel; Mobility; BW; JUMS; DLI\nSolution Implementation Date Total Project Duration | Release 1 planned for November 2022; Release 2 planned for February 2023 January 2021 to April 2023\nProject Outcomes | Asset Reliability and Uptime Field Productivity and Work Execution Capital and Construction Efficiency Customer Service Responsiveness GIS-Enabled Operational Visibility Global Template Standardization"
+      },
+      {
+        "kind": "table",
+        "location": "Table 20, section 'SI reference #1'",
+        "text": "Field | Content\nClient Name / Description Project Description / Scope | WaterOne, largest water utility, enhancing service delivery for 450,000 customers across a 274-square-mile service area. Deloitte is implementing an integrated SAP solution for Kansas’s largest water utility, enhancing service delivery for 450,000 customers across a 274-square-mile service area. The solution will streamline 260+ daily service orders for 400+ employees through SAP FSM, SSAM, APM, and Dynamic Forms, improving scheduling, field execution, asset reliability, and workforce productivity\nType of Engage ment | Full scope implementation project with Deloitte as Lead SI\nRoles and Res ponsibilities of SI Project Team | Deloitte owns full project management and delivery including PMO, functional, technical, change management, training, communications, security, and basis.\nLegacy Platform Modernized or Replaced Application Name / Version | ArcGIS SAP Enterprise Asset Management SAP Asset Performance Management SAP SAM SAP FSM\nSolution Implementation Date Total Project Duration | Big bang planned for October 2026 August 2025 to October 2026\nProject Outcomes | Improving maintenance execution and asset uptime Reducing manual effort through workflow digitization Increasing visibility into backlog, work status, and asset health"
+      },
+      {
+        "kind": "table",
+        "location": "Table 21, section 'Proposed Project Team'",
+        "text": "Role | Responsibilities\nSteering Committee | Tier 1 governance / monthly decision authority for the program. Provide strategic direction. Approve charter changes, capitalization policy, and target-state design. Make cross-functional trade-of f decisions. Issue go / no-go decisions for major releases and specifically approve SG4 Go-Live Readiness. Resolve high-severity risks and receive escalations for critical defects, major budget changes, regulatory/reporting risk, safety/operability risk, or strategic design deviations. Approve budgetary changes greater than 10% of contingency or more than 50% of cumulative contingency. Review the program monthly, including the 8-dimension Program Health RAG status. Serve as an acceptance authority for key milestones and stage gates, including SG0/SG1, SG2, SG3-related checkpoints, SG4, and go-live/cutover approvals in the payment schedule.\nProject Management | Build and maintain the Integrated Master Schedule (IMS) at activity level and contribute weekly to the consolidated program IMS. Manage dependencies across parallel initiatives such as DDS/GET, GIS/RAM, FSM, SAP S/4HANA Upgrade, PowerPlan NXT, and Project 3 operations calendars. Administer and participate in the RAIDD process for risks, assumptions, issues, de pendencies, and decisions, using Smartsheet as the system of record. Provi de weekly status reporting and inputs to the monthly Steering Committee for review, including the 8-dimension Program Health RAG view. Escalate critical issues within one weekly cycle when they threaten go-live, budget, regulatory/financial reporting, safety/operability, or target-state design. Perform financial tracking: weekly burn, monthly forecast vs. plan, quarterly value-at-risk, and contingency reconciliation. Support change co ntrol, documenting scope, schedule, cost, contingency, and risk impacts for formal changes.\nFunctional Team | Authors for the Functional Specifications (FSDs) for each RICEFW object. Those FSDs must include RTM traceability, process flow, impacted data model, functional behavior, validation rules, security/authorization requirements, controls and audit needs, integration touchpoints, UAT acceptance criteria, and design assumptions. Lead Deloitte functional team members Plan functional team activities at a detailed level and coordinate with project management\nTechnical Team | Author Technical Specifications (TSDs) for each RICEFW object, including object ID/type/complexity, full technical design, data dictionary, pseudo-code or detailed logic, integration patterns, error handling, security/authorization implementation, performance considerations, unit test scope, and dependencies Obtain design approval before build; each TSD must be reviewed and approved by the Project 3 Digital Lead before development starts Foll ow technical development standards, including SAPUI5 / Fiori Elements standards, CPI naming/package/folder standards, static code analysis, and clean ATC execution before transport Perform technical code reviews, with review by the SI Technical Lead, Project 3 Digital Lead, and Project 3 Architect Lead Unit test every RICEFW object and retain evidence in the Project 3 Program Repository; those objects also flow into SIT, UAT, regression, controls testing, and cutover rehearsal Own the SAP side of every interface in scope, in cluding interface design, build, unit test, monitoring setup, error handling/retry logic, exception alerting, runbook creation, and operational handover to Project 3 AMS after hyper care Produce full interface technical documentation for the listed integrations and work within Project 3-approved middleware/patterns such as CPI, IDoc, RFC, OData, or event mesh Coordinate with technical counterparts such as GIS technical leads and other system owners where integrations cross program boundaries\nData Conversion | The SI ow ns the conversion execution approach: Extract → Profile → Transform → Cleanse → Enrich → Load → Test → Validate & Reconcile The …"
+      },
+      {
+        "kind": "heading",
+        "location": "Section 'Pricing & Resourcing'",
+        "text": "Pricing & Resourcing"
+      }
+    ],
+    "leftOut": {
+      "note": "Everything below except pictures can still be read with searchResponse.",
+      "blocksOverCap": 163,
+      "blocksOverCapLocations": [
+        "Table 8, section 'Development & Integration Methodology'",
+        "Table 9, section 'Data conversion methodology'",
+        "Table 12, section 'Communication & Engagement'",
+        "Table 13, section 'Minimum Work-Type Scenario Catalog'",
+        "Section 'Risk Management Lifecycle'",
+        "Section '5.1 Functional Design'",
+        "Section 'Data Conversion Methodology'",
+        "Section 'Data conversion methodology'",
+        "Section 'Testing Methodology & Quality Controls'",
+        "Section 'Change Strategy & Analytics'",
+        "Section 'Training Needs Analysis'",
+        "Section 'Digital Adoption — WalkMe Integration'",
+        "Section 'Pillar 5 — Post Go-Live Analytics and Support'",
+        "Section 'the program Program — SAP PM Implementation'",
+        "Section 'Implementation Methodology & Delivery Framework'",
+        "Section 'Tailored Methodology'",
+        "Section 'Risk Management, Governance & Quality Management'",
+        "Section 'Requirements Traceability'",
+        "Section '5.2 Technology Design'",
+        "Section 'Security Design'",
+        "Section 'Development & Integration Methodology'",
+        "Section '8.1 Overview'",
+        "Section '8.6 Test Automation Strategy'",
+        "Section 'Change Management Methodology'",
+        "Section 'Communication & Engagement'",
+        "Section 'Training Philosophy — Field-First, Scenario-Driven'",
+        "Section 'Minimum Work-Type Scenario Catalog'",
+        "Section 'Deployment & Rollback Methodology'",
+        "Section 'Hypercare & Transition-to-Support Methodology'",
+        "Section 'Deliverables, Decision Points, Quality Gates & Acceptance Criteria'",
+        "Section 'Integrated Project Plan'",
+        "Section 'Pricing & Resourcing'",
+        "Section 'Alternate Implementation Approach'"
+      ],
+      "longParagraphsSkipped": 21,
+      "longParagraphLocations": [
+        "Section 'Implementation Methodology & Delivery Framework'",
+        "Section 'Risk Management, Governance & Quality Management'",
+        "Section 'Requirements Traceability'",
+        "Section '5.1 Functional Design'",
+        "Section '5.2 Technology Design'",
+        "Section 'Security Design'",
+        "Section 'Development & Integration Methodology'",
+        "Section 'Data conversion methodology'",
+        "Section '8.1 Overview'",
+        "Section 'Alternate Implementation Approach'"
+      ],
+      "tablesCut": [
+        "Table 15, section 'Our Tools and Accelerators:'",
+        "Table 16, section 'Deliverables, Decision Points, Quality Gates & Acceptance Criteria'",
+        "Table 21, section 'Proposed Project Team'"
+      ],
+      "pictures": [
+        "Document: 32 picture(s)"
+      ]
+    }
+  },
+  "sapWorkstreams": {
+    "Procurement": [
+      "PTP",
+      "P2P",
+      "STP",
+      "S2P",
+      "Procure to Pay",
+      "Source to Pay",
+      "Materials Management",
+      "MM",
+      "Ariba",
+      "Sourcing",
+      "Direct Procurement",
+      "Indirect Procurement"
+    ],
+    "Finance": [
+      "FI",
+      "RTR",
+      "R2R",
+      "FICO",
+      "Record to Report",
+      "GL",
+      "AP",
+      "AR",
+      "Financial Accounting",
+      "General Ledger",
+      "Fixed Assets",
+      "FSCM"
+    ],
+    "Manufacturing": [
+      "MFG",
+      "PP",
+      "Make to Order",
+      "MTO",
+      "Production Planning",
+      "Plan to Make",
+      "PTM",
+      "IBP",
+      "QM",
+      "Quality Management"
+    ],
+    "Sales": [
+      "SD",
+      "OTC",
+      "O2C",
+      "Order to Cash",
+      "Sales and Distribution",
+      "Pricing",
+      "Billing",
+      "Invoicing"
+    ],
+    "Supply chain": [
+      "EWM",
+      "WM",
+      "Logistics",
+      "TM",
+      "Warehouse Management",
+      "IM"
+    ],
+    "Analytics": [
+      "SAC",
+      "Reporting",
+      "BW",
+      "Embedded Analytics",
+      "BDC",
+      "Data Fabrics",
+      "Datasphere"
+    ],
+    "Human Resources": [
+      "HR",
+      "HCM",
+      "Success Factors",
+      "SuccessFactors",
+      "HTR",
+      "Hire to Retire",
+      "Workday",
+      "UKG"
+    ],
+    "Tax": [
+      "Vertex"
+    ],
+    "Development": [
+      "ABAP",
+      "CPI",
+      "FIORI",
+      "Middleware",
+      "Integrations",
+      "Integration"
+    ],
+    "Basis": [
+      "Basis",
+      "Infrastructure",
+      "RISE"
+    ],
+    "Data": [
+      "BODS",
+      "Syniti",
+      "Data Migration"
+    ],
+    "MDG": [
+      "MDG",
+      "Master Data"
+    ],
+    "EAM": [
+      "EAM",
+      "Plant Maintenance",
+      "SAP PM"
+    ],
+    "Security": [
+      "Security",
+      "Controls",
+      "GRC"
+    ]
+  }
+}
